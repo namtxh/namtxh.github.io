@@ -36,6 +36,8 @@ const translations = {
     "Governors are expected to cooperate with other members when Kingdom-wide coordination is required.": "Thống đốc cần phối hợp với các thành viên khác khi Vương quốc cần sự điều phối chung.",
     "Ignorance Is Not an Excuse": "Không biết luật không phải lý do miễn trừ",
     "All governors are responsible for reading and understanding the current Kingdom rules.": "Mọi Thống đốc có trách nhiệm đọc và hiểu các quy tắc hiện hành của Vương quốc.",
+    "Sunset Canyon": "Sunset Canyon",
+    "Do not attack the same governor more than twice in one day in Sunset Canyon. If reported, you must pay 10M Gold to the governor who was attacked.": "Không được tấn công cùng một Thống đốc quá hai lần trong một ngày ở Sunset Canyon. Nếu bị tố cáo, bạn phải chuyển 10 triệu Vàng cho Thống đốc bị tấn công.",
     "ACTIVITIES": "HOẠT ĐỘNG",
     "Kingdom Events": "Sự kiện Vương quốc",
     "Required Score": "Điểm yêu cầu",
