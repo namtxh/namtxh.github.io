@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=Noto+Sans:wght@400;500;600;700;800&display=swap');
 
 :root {
     --bg: #090a0d;
@@ -31,7 +31,7 @@ body {
         var(--bg);
 
     color: var(--text);
-    font-family: "Inter", sans-serif;
+    font-family: "Be Vietnam Pro", sans-serif;
     line-height: 1.7;
 }
 
@@ -119,7 +119,7 @@ nav {
 
     color: var(--gold);
 
-    font-family: "Cinzel", serif;
+    font-family: "Times New Roman", serif;
     font-size: 15px;
     font-weight: 700;
 
@@ -173,6 +173,63 @@ nav {
     padding: 20px 12px 0;
 
     border-top: 1px solid var(--border);
+}
+
+.language-toggle {
+    position: fixed;
+    top: 18px;
+    right: 24px;
+    z-index: 210;
+    display: flex;
+    align-items: center;
+    width: 76px;
+    height: 36px;
+    padding: 3px;
+    overflow: hidden;
+    border: 1px solid rgba(214, 169, 76, 0.45);
+    border-radius: 20px;
+    background: rgba(10, 11, 15, 0.94);
+    color: var(--muted);
+    cursor: pointer;
+    transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.language-toggle:hover {
+    border-color: var(--gold-light);
+    background: var(--panel-light);
+}
+
+.language-toggle:focus-visible {
+    outline: 2px solid var(--gold-light);
+    outline-offset: 3px;
+}
+
+.language-option {
+    z-index: 1;
+    flex: 1;
+    text-align: center;
+    font: 600 10px "Inter", sans-serif;
+    transition: color 0.2s ease;
+}
+
+.language-toggle-thumb {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 34px;
+    height: 28px;
+    border-radius: 16px;
+    background: var(--gold);
+    transition: transform 0.28s cubic-bezier(0.2, 0.75, 0.25, 1);
+}
+
+.language-toggle[aria-checked="false"] .language-option-en,
+.language-toggle[aria-checked="true"] .language-option-vi {
+    color: #111318;
+}
+
+.language-toggle[aria-checked="true"] .language-toggle-thumb {
+    transform: translateX(34px);
 }
 
 .sidebar-footer span {
@@ -665,10 +722,65 @@ footer small {
     background: #111318;
 
     border: 1px solid var(--gold);
+    border-radius: 4px;
 
     color: var(--gold);
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
 
-    font-size: 20px;
+.menu-btn:hover {
+    background: var(--panel-light);
+    border-color: var(--gold-light);
+}
+
+.menu-btn:focus-visible {
+    outline: 2px solid var(--gold-light);
+    outline-offset: 3px;
+}
+
+.menu-icon {
+    position: relative;
+    display: block;
+    width: 20px;
+    height: 16px;
+}
+
+.menu-icon span {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    border-radius: 2px;
+    background: currentColor;
+    transition: top 0.25s ease, transform 0.25s ease, opacity 0.18s ease;
+}
+
+.menu-icon span:nth-child(1) {
+    top: 1px;
+}
+
+.menu-icon span:nth-child(2) {
+    top: 7px;
+}
+
+.menu-icon span:nth-child(3) {
+    top: 13px;
+}
+
+.menu-btn.open .menu-icon span:nth-child(1) {
+    top: 7px;
+    transform: rotate(45deg);
+}
+
+.menu-btn.open .menu-icon span:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0.4);
+}
+
+.menu-btn.open .menu-icon span:nth-child(3) {
+    top: 7px;
+    transform: rotate(-45deg);
 }
 
 
@@ -691,7 +803,13 @@ footer small {
     }
 
     .menu-btn {
-        display: block;
+        display: grid;
+        place-items: center;
+    }
+
+    .language-toggle {
+        top: 16px;
+        right: 16px;
     }
 
     .main {
@@ -777,29 +895,67 @@ footer small {
 
 .nav-title b {
     margin-left: auto;
-
+    position: relative;
+    flex: 0 0 12px;
+    width: 12px;
+    height: 14px;
     color: var(--muted);
-    font-size: 14px;
+    transition: transform 0.3s cubic-bezier(0.2, 0.75, 0.25, 1);
+}
 
-    transition: transform 0.2s ease;
+.nav-title b::before {
+    position: absolute;
+    top: 1px;
+    left: 5px;
+    width: 1.5px;
+    height: 7px;
+    background: currentColor;
+    content: "";
+}
+
+.nav-title b::after {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 7px;
+    height: 7px;
+    border-right: 1.5px solid currentColor;
+    border-bottom: 1.5px solid currentColor;
+    content: "";
+    transform: rotate(45deg);
 }
 
 /* Nội dung bên trong hộp */
 .nav-items {
-    display: none;
-
-    margin-top: 5px;
-    padding: 5px 0 5px 8px;
-
+    max-height: 0;
+    margin-top: 0;
+    padding: 0 0 0 8px;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(-4px);
+    visibility: hidden;
     border-left: 1px solid rgba(214, 169, 76, 0.2);
+    transition: max-height 0.38s cubic-bezier(0.2, 0.75, 0.25, 1),
+        margin-top 0.38s ease,
+        padding 0.38s ease,
+        opacity 0.22s ease,
+        transform 0.38s cubic-bezier(0.2, 0.75, 0.25, 1),
+        visibility 0s linear 0.38s;
 }
 
 /* Khi mở */
 .nav-group.open .nav-items {
-    display: block;
+    max-height: 500px;
+    margin-top: 5px;
+    padding: 5px 0 5px 8px;
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible;
+    transition-delay: 0s;
 }
 
 .nav-group.open .nav-title b {
+    color: var(--gold);
     transform: rotate(180deg);
 }
 
@@ -812,4 +968,31 @@ footer small {
 /* Hộp đang mở */
 .nav-group.open .nav-title {
     border-color: rgba(214, 169, 76, 0.35);
+}
+
+html[lang="vi"] body,
+html[lang="vi"] .logo h1,
+html[lang="vi"] .nav-title,
+html[lang="vi"] .nav-title > span,
+html[lang="vi"] .sidebar-footer span,
+html[lang="vi"] .language-option,
+html[lang="vi"] .hero h2,
+html[lang="vi"] .section-title > span,
+html[lang="vi"] .section-title h2,
+html[lang="vi"] .rule-number,
+html[lang="vi"] .event-header span,
+html[lang="vi"] .event-header h3,
+html[lang="vi"] .formula strong,
+html[lang="vi"] .footer-logo {
+    font-family: "Noto Sans", sans-serif;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .nav-items,
+    .nav-title b,
+    .menu-icon span,
+    .language-toggle-thumb,
+    .language-option {
+        transition-duration: 0.01ms;
+    }
 }

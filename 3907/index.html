@@ -12,7 +12,18 @@
 <body>
 
     <!-- Mobile menu button -->
-    <button class="menu-btn" id="menuBtn">☰</button>
+    <button class="menu-btn" id="menuBtn" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="sidebar">
+        <span class="menu-icon" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+        </span>
+    </button>
+    <button class="language-toggle" id="languageToggle" type="button" role="switch" aria-label="Switch language: English" aria-checked="false">
+        <span class="language-option language-option-en">EN</span>
+        <span class="language-option language-option-vi">VI</span>
+        <span class="language-toggle-thumb" aria-hidden="true"></span>
+    </button>
 
     <!-- Sidebar -->
     <aside class="sidebar" id="sidebar">
@@ -33,7 +44,7 @@
         <button class="nav-title" onclick="toggleNavGroup(this)">
             <span>01</span>
             GENERAL RULES
-            <b>⌄</b>
+            <b aria-hidden="true"></b>
         </button>
 
         <div class="nav-items">
@@ -50,7 +61,7 @@
         <button class="nav-title" onclick="toggleNavGroup(this)">
             <span>02</span>
             KINGDOM EVENTS
-            <b>⌄</b>
+            <b aria-hidden="true"></b>
         </button>
 
         <div class="nav-items">
@@ -87,7 +98,7 @@
         <button class="nav-title" onclick="toggleNavGroup(this)">
             <span>03</span>
             KVK
-            <b>⌄</b>
+            <b aria-hidden="true"></b>
         </button>
 
         <div class="nav-items">
@@ -309,7 +320,7 @@
                             An MGE registration letter will be sent around the
                             middle of the week before MGE.
                         </p>
-                        <code>Reply the MGE mail with this format: "Commander, Top wanted"<br>For example: Gorgo, Top 4</code>
+                        <code>Reply to the MGE mail with this format: "Commander, Top wanted"<br>For example: Gorgo, Top 4</code>
                     </div>
 
                     <div class="info-card">
@@ -331,8 +342,7 @@
                     <div class="info-card">
                         <strong>Penalty</strong>
                         <p>
-                            Each point above the 6M cap is subject to a penalty
-                            of <b>100 Gold</b>.
+                            <b>100 Gold</b> per point above the 6M cap.
                         </p>
                     </div>
 
@@ -448,7 +458,7 @@
                     <div class="info-card">
                         <strong>Alternative</strong>
                         <p>
-                            Governors may play AOO in another alliance or
+                            Governors may play AoO in another alliance or
                             participate in Silver instead.
                         </p>
                     </div>
@@ -574,7 +584,7 @@
                         <strong>Eligible Battles</strong>
                         <p>
                             DKP is counted from battles involving Lv. 4 Passes,
-                            Altar of Darkness, Lv. 7 Passes, and Kingland.
+                            Altar of Darkness, Lv. 7 Passes, and Kingsland.
                         </p>
                     </div>
 
