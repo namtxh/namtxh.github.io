@@ -321,8 +321,8 @@ const QUIZ_UI_TEXT = {
         incorrect: "Incorrect",
         correctAnswer: "Correct answer",
         explanation: "Explanation",
-        finalPass: "PASSED",
-        finalFail: "FAILED",
+        finalPass: "QUIZ PASSED",
+        finalFail: "QUIZ NOT PASSED",
         score: "Score",
         accuracy: "Accuracy",
         congratulations: "Congratulations! You have passed the Kingdom 3907 Rules Quiz.",
@@ -333,6 +333,15 @@ const QUIZ_UI_TEXT = {
         quizPassed: "✓ QUIZ PASSED",
         quizFailed: "✕ QUIZ FAILED",
         verificationCode: "Verification Code",
+        completed: "Completed",
+        rewardEligible: "Reward Eligible",
+        rewardDetails: "50M Food OR 50M Wood OR 50M Stone",
+        rewardInformation: "Eligibility is informational. Follow Kingdom Leadership instructions for reward review.",
+        reviewAnswers: "Review Your Answers",
+        yourAnswer: "Your Answer",
+        needToPass: "You need 16/20 to pass.",
+        perfectScore: "Perfect Score — 20/20",
+        everyAnswerCorrect: "You answered every question correctly.",
         verificationInstruction: "Take a screenshot and send this code to Kingdom Leadership in-game for reward review.",
         practiceComplete: "Practice complete",
         practiceSummary: "Final score",
@@ -375,7 +384,7 @@ const QUIZ_UI_TEXT = {
         incorrect: "Sai",
         correctAnswer: "Đáp án đúng",
         explanation: "Giải thích",
-        finalPass: "ĐẠT",
+        finalPass: "ĐÃ ĐẠT",
         finalFail: "KHÔNG ĐẠT",
         score: "Điểm",
         accuracy: "Độ chính xác",
@@ -387,6 +396,15 @@ const QUIZ_UI_TEXT = {
         quizPassed: "✓ ĐÃ ĐẠT",
         quizFailed: "✕ CHƯA ĐẠT",
         verificationCode: "Mã xác minh",
+        completed: "Hoàn thành",
+        rewardEligible: "Đủ điều kiện nhận thưởng",
+        rewardDetails: "50M Ngô HOẶC 50M Gỗ HOẶC 50M Đá",
+        rewardInformation: "Thông tin đủ điều kiện chỉ mang tính tham khảo. Hãy làm theo hướng dẫn của Ban lãnh đạo Vương quốc để xét thưởng.",
+        reviewAnswers: "Xem lại câu trả lời",
+        yourAnswer: "Câu trả lời của bạn",
+        needToPass: "Bạn cần đạt 16/20 để vượt qua.",
+        perfectScore: "Điểm tuyệt đối — 20/20",
+        everyAnswerCorrect: "Bạn đã trả lời đúng tất cả các câu hỏi.",
         verificationInstruction: "Chụp màn hình và gửi mã này cho Ban lãnh đạo trong game để xét thưởng.",
         practiceComplete: "Hoàn tất bài thực hành",
         practiceSummary: "Điểm cuối cùng",
@@ -987,7 +1005,7 @@ function loadQuizStorage() {
     try {
         const raw = localStorage.getItem(QUIZ_STORAGE_KEY);
         if (!raw) {
-            return { passed: false, bestScore: 0, attempts: 0, lastScore: 0, lastCode: "" };
+            return { passed: false, bestScore: 0, attempts: 0, lastScore: 0, lastCode: "", lastCompletedAt: "", lastResult: null };
         }
         const parsed = JSON.parse(raw);
         return {
@@ -995,10 +1013,12 @@ function loadQuizStorage() {
             bestScore: Number(parsed.bestScore) || 0,
             attempts: Number(parsed.attempts) || 0,
             lastScore: Number(parsed.lastScore) || 0,
-            lastCode: String(parsed.lastCode || "")
+            lastCode: String(parsed.lastCode || ""),
+            lastCompletedAt: String(parsed.lastCompletedAt || ""),
+            lastResult: parsed.lastResult && typeof parsed.lastResult === "object" ? parsed.lastResult : null
         };
     } catch (error) {
-        return { passed: false, bestScore: 0, attempts: 0, lastScore: 0, lastCode: "" };
+        return { passed: false, bestScore: 0, attempts: 0, lastScore: 0, lastCode: "", lastCompletedAt: "", lastResult: null };
     }
 }
 
@@ -1068,6 +1088,20 @@ function generateResultCode() {
     const symbols = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
     const randomPart = Array.from({ length: 8 }, () => symbols[Math.floor(Math.random() * symbols.length)]).join("");
     return `K3907-${randomPart}`;
+}
+
+function formatUtcCompletion(isoTimestamp) {
+    const date = new Date(isoTimestamp);
+    const formatted = new Intl.DateTimeFormat("en-GB", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        hourCycle: "h23",
+        timeZone: "UTC"
+    }).format(date);
+    return `${formatted} UTC`;
 }
 
 function updateQuizStatusPanel() {
@@ -1303,36 +1337,57 @@ function initializeQuizPage() {
         }
 
         if (finalState.finished) {
-            const isPassed = finalState.score >= 16;
-            const accuracy = Math.round((finalState.score / finalState.items.length) * 100);
-            const stats = loadQuizStorage();
-            const rewardCode = generateResultCode();
-            stats.lastScore = finalState.score;
-            stats.attempts = (Number(stats.attempts) || 0) + 1;
-            stats.bestScore = Math.max(stats.bestScore, finalState.score);
-            stats.passed = stats.passed || isPassed;
-            stats.lastCode = rewardCode;
-            saveQuizStorage(stats);
+            const result = finalState.result;
+            const isPassed = result.passed;
+            const accuracy = Math.round((result.score / result.total) * 100);
+            const reviewMarkup = result.incorrectAnswers.length
+                ? `
+                    <section class="quiz-review">
+                        <h3>${getQuizText("reviewAnswers")}</h3>
+                        ${result.incorrectAnswers.map((answer) => `
+                            <article class="quiz-review-item">
+                                <h4>${getQuizText("questionLabel")} ${answer.questionNumber}</h4>
+                                <p class="quiz-review-question">${getLocalizedText(answer.question)}</p>
+                                <p class="quiz-review-answer incorrect"><strong>✕ ${getQuizText("yourAnswer")}:</strong> ${getLocalizedText(answer.selectedAnswer)}</p>
+                                <p class="quiz-review-answer correct"><strong>✓ ${getQuizText("correctAnswer")}:</strong> ${getLocalizedText(answer.correctAnswer)}</p>
+                                <p class="quiz-review-explanation"><strong>${getQuizText("explanation")}:</strong> ${getLocalizedText(answer.explanation)}</p>
+                            </article>
+                        `).join("")}
+                    </section>
+                `
+                : `
+                    <section class="quiz-review quiz-perfect-score">
+                        <h3>${getQuizText("perfectScore")}</h3>
+                        <p>${getQuizText("everyAnswerCorrect")}</p>
+                    </section>
+                `;
 
             container.innerHTML = `
                 <div class="quiz-result-box ${isPassed ? "pass" : "fail"}">
                     <strong>${isPassed ? getQuizText("finalPass") : getQuizText("finalFail")}</strong>
                     <div class="final-score-panel">
                         <span>${getQuizText("score")}</span>
-                        <strong>${finalState.score} / ${finalState.items.length}</strong>
+                        <strong>${result.score} / ${result.total}</strong>
                     </div>
                     <div class="final-score-panel">
                         <span>${getQuizText("accuracy")}</span>
                         <strong>${accuracy}%</strong>
                     </div>
-                    <div class="quiz-result-box">
-                        <strong>${getQuizText("verificationCode")}</strong>
-                        <p><strong>${rewardCode}</strong></p>
-                        <p>${getQuizText("verificationInstruction")}</p>
+                    <div class="quiz-verification ${isPassed ? "" : "failed"}">
+                        ${isPassed ? `<div><span>${getQuizText("verificationCode")}</span><strong>${result.code}</strong></div>` : ""}
+                        <div><span>${getQuizText("completed")}</span><strong>${formatUtcCompletion(result.completedAt)}</strong></div>
                     </div>
-                    <p>${isPassed ? getQuizText("congratulations") : getQuizText("failure")}</p>
-                    ${isPassed ? `<p class="quiz-result-pass-line">${getQuizText("rewardConfirmed")}</p><p>${getQuizText("claimReward")}</p>` : ""}
+                    ${isPassed
+                        ? `<p>${getQuizText("congratulations")}</p>
+                            <div class="quiz-reward">
+                                <strong>${getQuizText("rewardEligible")}</strong>
+                                <p>${getQuizText("rewardDetails")}</p>
+                                <p>${getQuizText("rewardInformation")}</p>
+                            </div>
+                            <p>${getQuizText("verificationInstruction")}</p>`
+                        : `<p>${getQuizText("failure")}</p><p class="quiz-result-fail-line">${getQuizText("needToPass")}</p>`}
                 </div>
+                ${reviewMarkup}
                 <div class="quiz-actions">
                     <button class="quiz-secondary-button" type="button" data-review-rules="true">${getQuizText("reviewRules")}</button>
                     <button class="quiz-button" type="button" data-final-reset="true">${getQuizText("tryAgainFinal")}</button>
@@ -1400,6 +1455,7 @@ function initializeQuizPage() {
                 }
 
                 finalState.finished = true;
+                completeFinalQuiz();
                 renderFinalQuiz();
             });
         }
@@ -1411,7 +1467,46 @@ function initializeQuizPage() {
         finalState.score = 0;
         finalState.finished = false;
         finalState.started = true;
+        finalState.result = null;
         renderFinalQuiz();
+    }
+
+    function completeFinalQuiz() {
+        const completedAt = new Date().toISOString();
+        const passed = finalState.score >= 16;
+        const incorrectAnswers = finalState.items.reduce((answers, item, index) => {
+            if (item.selectedIndex !== item.correctIndex) {
+                const selectedAnswer = item.answers[item.selectedIndex];
+                const correctAnswer = item.answers[item.correctIndex];
+                answers.push({
+                    questionNumber: index + 1,
+                    question: item.baseQuestion.question,
+                    selectedAnswer: { en: selectedAnswer.en, vi: selectedAnswer.vi },
+                    correctAnswer: { en: correctAnswer.en, vi: correctAnswer.vi },
+                    explanation: item.baseQuestion.explanation
+                });
+            }
+            return answers;
+        }, []);
+        const stats = loadQuizStorage();
+        const result = {
+            score: finalState.score,
+            total: finalState.items.length,
+            passed,
+            code: passed ? generateResultCode() : "",
+            completedAt,
+            incorrectAnswers
+        };
+
+        stats.lastScore = result.score;
+        stats.attempts = (Number(stats.attempts) || 0) + 1;
+        stats.bestScore = Math.max(stats.bestScore, result.score);
+        stats.passed = stats.passed || passed;
+        stats.lastCode = result.code;
+        stats.lastCompletedAt = completedAt;
+        stats.lastResult = { ...result, attempt: stats.attempts };
+        finalState.result = result;
+        saveQuizStorage(stats);
     }
 
     document.addEventListener("quizLanguageUpdated", () => {
