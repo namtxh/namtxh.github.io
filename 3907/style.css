@@ -730,3 +730,86 @@ footer small {
         padding: 50px 25px;
     }
 }
+/* ================================
+   SIDEBAR DROPDOWN
+================================ */
+
+.nav-group {
+    margin-bottom: 12px;
+}
+
+.nav-title {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    padding: 13px 14px;
+
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+
+    color: var(--gold);
+    font-family: "Cinzel", serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.3px;
+
+    cursor: pointer;
+    text-align: left;
+
+    transition: 0.2s ease;
+}
+
+.nav-title:hover {
+    background: var(--panel-light);
+    border-color: rgba(214, 169, 76, 0.35);
+}
+
+.nav-title > span {
+    width: 22px;
+
+    color: #666b75;
+    font-family: "Inter", sans-serif;
+    font-size: 9px;
+}
+
+.nav-title b {
+    margin-left: auto;
+
+    color: var(--muted);
+    font-size: 14px;
+
+    transition: transform 0.2s ease;
+}
+
+/* Nội dung bên trong hộp */
+.nav-items {
+    display: none;
+
+    margin-top: 5px;
+    padding: 5px 0 5px 8px;
+
+    border-left: 1px solid rgba(214, 169, 76, 0.2);
+}
+
+/* Khi mở */
+.nav-group.open .nav-items {
+    display: block;
+}
+
+.nav-group.open .nav-title b {
+    transform: rotate(180deg);
+}
+
+/* Các mục con */
+.nav-items .nav-link {
+    margin: 2px 0;
+    border-radius: 6px;
+}
+
+/* Hộp đang mở */
+.nav-group.open .nav-title {
+    border-color: rgba(214, 169, 76, 0.35);
+}

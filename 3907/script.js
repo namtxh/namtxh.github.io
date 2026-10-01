@@ -52,3 +52,14 @@ window.addEventListener("scroll", () => {
     });
 
 });
+function toggleNavGroup(button) {
+    const currentGroup = button.parentElement;
+
+    document.querySelectorAll(".nav-group").forEach(group => {
+        if (group !== currentGroup) {
+            group.classList.remove("open");
+        }
+    });
+
+    currentGroup.classList.toggle("open");
+}
