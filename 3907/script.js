@@ -8,16 +8,16 @@ const translations = {
     "General Rules": "Quy định chung",
     "KINGDOM EVENTS": "SỰ KIỆN VƯƠNG QUỐC",
     "MGE Regulations": "Thể lệ MGE",
-    "20 Golden Heads": "Sự kiện 20 Đầu Vàng",
-    "Ark of Osiris": "Ark of Osiris",
+    "20 Golden Heads": "Sự kiện 20 Trọc",
+    "Ark of Osiris": "Chiếc rương thần của Osiris",
     "Other Kingdom Events": "Sự kiện khác của Vương quốc",
     "Alliance Mobilization": "Tổng động viên liên minh",
     "Fighting Rules": "Quy định chiến đấu",
     "Rally & Garrison": "Tập hợp & Đồn trú",
-    "Acclaim": "Acclaim",
+    "Acclaim": "Điểm chiến công",
     "Insufficient DKP": "Không đủ DKP",
     "Conduct & Diplomacy": "Ứng xử & Ngoại giao",
-    "Vacation Permit": "Giấy phép nghỉ KvK",
+    "Vacation Permit": "Giấy nghỉ phép KvK",
     "Kingdom Codex": "Cẩm nang Vương quốc",
     "Official rules, regulations and policies governing Kingdom 3907.": "Các quy tắc, quy định và chính sách chính thức của Vương quốc 3907.",
     "READ THE CODEX": "XEM CẨM NANG",
@@ -63,7 +63,7 @@ const translations = {
     "100 Gold": "100 Vàng",
     "per point above the 6M cap.": "cho mỗi điểm vượt giới hạn 6 triệu.",
     "Resource Exchange": "Quy đổi tài nguyên",
-    "Food, Wood, Stone, or Gold at a ratio of": "Lương thực, Gỗ, Đá hoặc Vàng theo tỷ lệ",
+    "Food, Wood, Stone, or Gold at a ratio of": "Ngô, Gỗ, Đá hoặc Vàng theo tỷ lệ",
     "FFA MGE": "MGE tự do (FFA)",
     "If MGE KE or Final Day falls on a designated war day during KvK, MGE becomes FFA.": "Nếu ngày MGE KE hoặc ngày cuối trùng với ngày chiến tranh được chỉ định trong KvK, MGE sẽ chuyển thành FFA.",
     "20 Golden Heads Events": "Sự kiện 20 Đầu Vàng",
@@ -85,7 +85,7 @@ const translations = {
     "Register by Thursday 17:00 UTC by replying to the official registration mail.": "Đăng ký trước 17:00 UTC thứ Năm bằng cách trả lời thư đăng ký chính thức.",
     "No-Show": "Vắng mặt",
     "Governors who sign up but do not play will be subject to an RSS penalty.": "Thống đốc đã đăng ký nhưng không tham gia sẽ bị phạt tài nguyên (RSS).",
-    "200M Food / 200M Wood / 150M Stone / 80M Gold. Missing two matches in a row doubles the penalty.": "200 triệu Lương thực / 200 triệu Gỗ / 150 triệu Đá / 80 triệu Vàng. Vắng mặt hai trận liên tiếp sẽ bị phạt gấp đôi.",
+    "200M Food / 200M Wood / 150M Stone / 80M Gold. Missing two matches in a row doubles the penalty.": "200 triệu Ngô / 200 triệu Gỗ / 150 triệu Đá / 80 triệu Vàng. Vắng mặt hai trận liên tiếp sẽ bị phạt gấp đôi.",
     "Alternative": "Phương án thay thế",
     "Governors may play AoO in another alliance or participate in Silver instead.": "Thống đốc có thể tham gia AoO ở liên minh khác hoặc chọn giải Silver.",
     "Participation": "Tham gia",
@@ -142,8 +142,8 @@ const translations = {
     "RSS Pricing": "Giá RSS",
     "Resources Price": "Giá tài nguyên",
     "Seller Price Cap": "Giá tối đa cho người bán",
-    "The maximum price for 1B each of Food, Wood, Stone, and Gold is $30. This equals": "Giá tối đa cho 1B mỗi loại Lương thực, Gỗ, Đá và Vàng là $30. Mức này tương đương",
-    "$0.60 per 100M Food, Wood, or Stone": "$0.60 cho mỗi 100M Lương thực, Gỗ hoặc Đá",
+    "The maximum price for 1B each of Food, Wood, Stone, and Gold is $30. This equals": "Giá tối đa cho 1B mỗi loại Ngô, Gỗ, Đá và Vàng là $30. Mức này tương đương",
+    "$0.60 per 100M Food, Wood, or Stone": "$0.60 cho mỗi 100M Ngô, Gỗ hoặc Đá",
     "and": "và",
     "$1.20 per 100M Gold": "$1.20 cho mỗi 100M Vàng",
     "Sellers may charge less, but never more. Sellers reported for charging above this rate will be zeroed and banned from trading in 3907.": "Người bán có thể bán rẻ hơn nhưng tuyệt đối không được bán cao hơn. Người bán bị tố cáo vì bán vượt mức giá này sẽ bị zero và cấm buôn bán tại 3907.",
@@ -431,7 +431,7 @@ const QUESTION_BANK = [
             vi: "Điều gì bị cấm nếu không có sự cho phép?"
         },
         answers: [
-            { en: "Trading with enemy kingdoms", vi: "Giao dịch với các Vương quốc địch" },
+            { en: "Trading kills with enemy kingdoms", vi: "Trao đổi kill với các Vương quốc địch" },
             { en: "Attacking governors, cities, or alliances inside the Kingdom", vi: "Tấn công Thống đốc, thành phố hoặc liên minh trong Vương quốc" },
             { en: "Taking a vacation permit", vi: "Xin Giấy phép nghỉ" },
             { en: "Registering for an event", vi: "Đăng ký sự kiện" }
@@ -464,7 +464,7 @@ const QUESTION_BANK = [
         category: "GENERAL RULES",
         question: {
             en: "How many times can a governor attack the same governor in one day in Sunset Canyon before violating the rule?",
-            vi: "Trong một ngày ở Sunset Canyon, một Thống đốc có thể tấn công cùng một Thống đốc tối đa bao nhiêu lần trước khi vi phạm quy tắc?"
+            vi: "Trong một ngày ở Hẻm núi hoàng hôn, một Thống đốc có thể tấn công cùng một Thống đốc tối đa bao nhiêu lần trước khi vi phạm quy tắc?"
         },
         answers: [
             { en: "Once", vi: "Một lần" },
@@ -486,9 +486,9 @@ const QUESTION_BANK = [
         },
         answers: [
             { en: "10,000,000 Gold to the attacked governor", vi: "10.000.000 Vàng cho Thống đốc bị tấn công" },
-            { en: "5,000,000 Gold to the Kingdom", vi: "5.000.000 Vàng cho Vương quốc" },
+            { en: "5,000,000 Gold to the attacked governor", vi: "5.000.000 Vàng cho Thống đốc bị tấn công" },
             { en: "An RSS penalty", vi: "Phạt RSS" },
-            { en: "A temporary vacation permit", vi: "Một giấy phép nghỉ tạm thời" }
+            { en: "10,000,000 Gold to the Kingdom", vi: "10.000.000 Vàng cho Vương quốc" }
         ],
         correct: 0,
         explanation: {
@@ -524,7 +524,7 @@ const QUESTION_BANK = [
             { en: "Random draw", vi: "Rút thăm ngẫu nhiên" },
             { en: "By DKP ranking from the most recent KvK", vi: "Theo xếp hạng DKP của KvK gần nhất" },
             { en: "By acclaim only", vi: "Chỉ theo acclaim" },
-            { en: "By alliance rank only", vi: "Chỉ theo hạng liên minh" }
+            { en: "By equipment only", vi: "Chỉ theo trang bị" }
         ],
         correct: 1,
         explanation: {
@@ -539,7 +539,7 @@ const QUESTION_BANK = [
             vi: "Khi nhiều Thống đốc cùng xin một vị trí trong MGE, yếu tố nào được ưu tiên?"
         },
         answers: [
-            { en: "Acclaim", vi: "Acclaim" },
+            { en: "Acclaim", vi: "Điểm chiến công" },
             { en: "Alliance strength", vi: "Sức mạnh liên minh" },
             { en: "DKP", vi: "DKP" },
             { en: "First to register", vi: "Ai đăng ký sớm hơn" }
@@ -557,7 +557,7 @@ const QUESTION_BANK = [
             vi: "Giới hạn điểm MGE toàn Vương quốc là bao nhiêu?"
         },
         answers: [
-            { en: "4,000,000", vi: "4.000.000" },
+            { en: "10,000,000", vi: "10.000.000" },
             { en: "5,000,000", vi: "5.000.000" },
             { en: "6,000,000", vi: "6.000.000" },
             { en: "8,000,000", vi: "8.000.000" }
@@ -572,7 +572,7 @@ const QUESTION_BANK = [
         category: "KINGDOM EVENTS",
         question: {
             en: "How much is the penalty for each point above the 6M cap?",
-            vi: "Mỗi điểm vượt quá giới hạn 6 triệu bị phạt bao nhiêu?"
+            vi: "Mỗi 1 điểm vượt quá giới hạn 6 triệu bị phạt bao nhiêu?"
         },
         answers: [
             { en: "10 Gold", vi: "10 Vàng" },
@@ -593,15 +593,15 @@ const QUESTION_BANK = [
             vi: "Tỷ lệ quy đổi tài nguyên khi trả phạt MGE là bao nhiêu?"
         },
         answers: [
-            { en: "2 : 2 : 1.5 : 1 for Food, Wood, Stone, Gold", vi: "2 : 2 : 1,5 : 1 cho Lương thực, Gỗ, Đá, Vàng" },
-            { en: "1 : 1 : 1 : 1 for Food, Wood, Stone, Gold", vi: "1 : 1 : 1 : 1 cho Lương thực, Gỗ, Đá, Vàng" },
-            { en: "2 : 1.5 : 2 : 1", vi: "2 : 1,5 : 2 : 1" },
-            { en: "1 : 2 : 1.5 : 2", vi: "1 : 2 : 1,5 : 2" }
+            { en: "2 : 2 : 1.5 : 1 for Food, Wood, Stone, Gold", vi: "2 : 2 : 1,5 : 1 cho Ngô, Gỗ, Đá, Vàng" },
+            { en: "1 : 1 : 1 : 1 for Food, Wood, Stone, Gold", vi: "1 : 1 : 1 : 1 cho Ngô, Gỗ, Đá, Vàng" },
+            { en: "2 : 2 : 2 : 2 for Food, Wood, Stone, Gold", vi: "2 : 2 : 2 : 2 cho Ngô, Gỗ, Đá, Vàng" },
+            { en: "2 : 2 : 2 : 1 for Food, Wood, Stone, Gold", vi: "2 : 2 : 2 : 1 cho Ngô, Gỗ, Đá, Vàng" }
         ],
         correct: 0,
         explanation: {
             en: "The penalty may be paid using Food, Wood, Stone, or Gold at a ratio of 2 : 2 : 1.5 : 1.",
-            vi: "Phạt có thể được thanh toán bằng Lương thực, Gỗ, Đá hoặc Vàng theo tỷ lệ 2 : 2 : 1,5 : 1."
+            vi: "Phạt có thể được thanh toán bằng Ngô, Gỗ, Đá hoặc Vàng theo tỷ lệ 2 : 2 : 1,5 : 1."
         }
     },
     {
@@ -611,7 +611,7 @@ const QUESTION_BANK = [
             vi: "MGE trở thành FFA khi nào?"
         },
         answers: [
-            { en: "When it is a Thursday event", vi: "Khi là sự kiện vào thứ Năm" },
+            { en: "When it is off season", vi: "Khi không ở trong KvK" },
             { en: "When the MGE Kill Event or Final Day falls on a designated war day during KvK", vi: "Khi MGE KE hoặc ngày cuối trùng với ngày chiến tranh được chỉ định trong KvK" },
             { en: "When there are fewer than 10 participants", vi: "Khi số người tham gia ít hơn 10" },
             { en: "When 1.5M Acclaim is reached", vi: "Khi đạt 1,5 triệu Acclaim" }
@@ -737,15 +737,15 @@ const QUESTION_BANK = [
             vi: "Mức phạt chuẩn của AOO là bao nhiêu?"
         },
         answers: [
-            { en: "200M Food or 200M Wood or 150M Stone or 80M Gold", vi: "200 triệu Lương thực hoặc 200 triệu Gỗ hoặc 150 triệu Đá hoặc 80 triệu Vàng" },
+            { en: "200M Food or 200M Wood or 150M Stone or 80M Gold", vi: "200 triệu Ngô hoặc 200 triệu Gỗ hoặc 150 triệu Đá hoặc 80 triệu Vàng" },
             { en: "500M Gold only", vi: "Chỉ 500 triệu Vàng" },
-            { en: "100M Food only", vi: "Chỉ 100 triệu Lương thực" },
+            { en: "100M Food only", vi: "Chỉ 100 triệu Ngô" },
             { en: "No penalty if you apologize", vi: "Không phạt nếu xin lỗi" }
         ],
         correct: 0,
         explanation: {
             en: "The standard penalty is 200M Food or 200M Wood or 150M Stone or 80M Gold. Missing two AOO matches in a row doubles the penalty.",
-            vi: "Mức phạt chuẩn là 200 triệu Lương thực hoặc 200 triệu Gỗ hoặc 150 triệu Đá hoặc 80 triệu Vàng. Vắng mặt hai trận liên tiếp sẽ làm phạt gấp đôi."
+            vi: "Mức phạt chuẩn là 200 triệu Ngô hoặc 200 triệu Gỗ hoặc 150 triệu Đá hoặc 80 triệu Vàng. Vắng mặt hai trận liên tiếp sẽ làm phạt gấp đôi."
         }
     },
     {
@@ -950,7 +950,7 @@ const QUESTION_BANK = [
         category: "KVK",
         question: {
             en: "What is true about Vacation Permit holders?",
-            vi: "Điều gì đúng với người có Vacation Permit?"
+            vi: "Điều gì đúng với người có Vé nghỉ phép?"
         },
         answers: [
             { en: "They are exempt from participation and DKP requirements for that KvK", vi: "Họ được miễn tham gia và yêu cầu DKP trong KvK đó" },
@@ -960,8 +960,8 @@ const QUESTION_BANK = [
         ],
         correct: 0,
         explanation: {
-            en: "Governors with an approved Vacation Permit are exempt from KvK participation and DKP requirements for that KvK, and must remain in Zone 4.",
-            vi: "Thống đốc được duyệt Giấy phép nghỉ sẽ được miễn tham gia KvK và yêu cầu DKP cho KvK đó, và phải ở trong Zone 4."
+            en: "Governors with an approved Vacation Permit are exempt from KvK participation and DKP requirements for that KvK, and can only remain in Zone 4.",
+            vi: "Thống đốc được duyệt Giấy nghỉ phép sẽ được miễn tham gia KvK và yêu cầu DKP cho KvK đó, và chỉ được ở trong Zone 4."
         }
     }
 ];
