@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kingdom 3907 Rules Quiz</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body data-page="quiz">
+    <button class="menu-btn" id="menuBtn" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="sidebar">
+        <span class="menu-icon" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+        </span>
+    </button>
+
+    <button class="language-toggle" id="languageToggle" type="button" role="switch" aria-label="Switch language: English" aria-checked="false">
+        <span class="language-option language-option-en">EN</span>
+        <span class="language-option language-option-vi">VI</span>
+        <span class="language-toggle-thumb" aria-hidden="true"></span>
+    </button>
+
+    <aside class="sidebar" id="sidebar">
+        <div class="logo">
+            <div class="logo-symbol">⚔</div>
+            <div>
+                <h1>KINGDOM</h1>
+                <span>CODEX 3907</span>
+            </div>
+        </div>
+
+        <nav>
+            <div class="nav-group open">
+                <button class="nav-title" onclick="toggleNavGroup(this)">
+                    <span>01</span>
+                    KINGDOM CODEX
+                    <b aria-hidden="true"></b>
+                </button>
+
+                <div class="nav-items">
+                    <a href="../index.html#general" class="nav-link">
+                        <span>1</span>
+                        General Rules
+                    </a>
+                    <a href="../index.html#events" class="nav-link">
+                        <span>2</span>
+                        Kingdom Events
+                    </a>
+                    <a href="../index.html#kvk" class="nav-link">
+                        <span>3</span>
+                        KVK
+                    </a>
+                </div>
+            </div>
+
+            <div class="nav-group">
+                <button class="nav-title" onclick="toggleNavGroup(this)">
+                    <span>02</span>
+                    RULES QUIZ
+                    <b aria-hidden="true"></b>
+                </button>
+
+                <div class="nav-items">
+                    <a href="#how-it-works" class="nav-link active">
+                        <span>1</span>
+                        How It Works
+                    </a>
+                    <a href="#practice-quiz" class="nav-link">
+                        <span>2</span>
+                        Practice Quiz
+                    </a>
+                    <a href="#final-quiz" class="nav-link">
+                        <span>3</span>
+                        Final Quiz
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <div class="sidebar-footer">
+            <span>KINGDOM 3907</span>
+            <small>Rules Quiz</small>
+        </div>
+    </aside>
+
+    <main class="main">
+        <div id="quizApp" class="quiz-shell"></div>
+    </main>
+
+    <script src="../script.js" defer></script>
+</body>
+</html>

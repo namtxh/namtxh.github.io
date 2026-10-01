@@ -182,7 +182,11 @@ function setLanguage(language) {
     });
 
     document.documentElement.lang = language;
-    document.title = isVietnamese ? "Cẩm nang Vương quốc - 3907" : "Kingdom Codex - 3907";
+    if (document.body && document.body.dataset.page === "quiz") {
+        document.title = isVietnamese ? "Bài Trắc Nghiệm Luật Vương Quốc 3907" : "Kingdom 3907 Rules Quiz";
+    } else {
+        document.title = isVietnamese ? "Cẩm nang Vương quốc - 3907" : "Kingdom Codex - 3907";
+    }
     languageToggle.setAttribute("aria-checked", String(isVietnamese));
     languageToggle.setAttribute("aria-label", isVietnamese ? "Chuyển ngôn ngữ: Tiếng Việt" : "Switch language: English");
     updateMenuButton();
@@ -276,4 +280,1158 @@ function toggleNavGroup(button) {
     });
 
     currentGroup.classList.toggle("open");
+}
+
+const QUIZ_STORAGE_KEY = "kingdom3907Quiz";
+const rewardSystemConfig = {
+    future: true,
+    leadershipText: "Reward eligibility will be handled by Kingdom Leadership."
+};
+
+const QUIZ_UI_TEXT = {
+    en: {
+        pageTitle: "KINGDOM 3907\nRULES QUIZ",
+        bestScore: "Best Score",
+        attempts: "Attempts",
+        status: "Status",
+        passedStatus: "QUIZ PASSED",
+        failedStatus: "QUIZ FAILED",
+        notStarted: "NOT STARTED",
+        howItWorks: "How It Works",
+        practiceQuiz: "Practice Quiz",
+        finalQuiz: "Final Quiz",
+        readRules: "Read the Kingdom 3907 Rules.",
+        practiceLearn: "Take the Practice Quiz to learn.",
+        takeFinal: "Take the Final Quiz.",
+        twentyQuestions: "Answer 20 questions.",
+        passTarget: "Score at least 80% (16/20) to pass.",
+        saved: "Your result is saved in your browser.",
+        rewardLeadership: rewardSystemConfig.leadershipText,
+        rewardConfirmed: "Reward eligibility confirmed.",
+        claimReward: "Please follow the instructions from Kingdom Leadership to claim your reward.",
+        startPractice: "START PRACTICE",
+        startFinal: "START FINAL QUIZ",
+        tryAgain: "TRY AGAIN",
+        next: "NEXT",
+        finish: "FINISH",
+        reviewRules: "REVIEW RULES",
+        tryAgainFinal: "TRY AGAIN",
+        questionLabel: "Question",
+        correct: "Correct",
+        incorrect: "Incorrect",
+        correctAnswer: "Correct answer",
+        explanation: "Explanation",
+        finalPass: "PASSED",
+        finalFail: "FAILED",
+        score: "Score",
+        accuracy: "Accuracy",
+        congratulations: "Congratulations! You have passed the Kingdom 3907 Rules Quiz.",
+        failure: "You did not pass. Review the Kingdom Rules and try again.",
+        passDescription: "16/20 or higher = PASSED",
+        failDescription: "15/20 or lower = FAILED",
+        rewardNote: "Reward eligibility confirmed.",
+        quizPassed: "✓ QUIZ PASSED",
+        quizFailed: "✕ QUIZ FAILED",
+        verificationCode: "Verification Code",
+        verificationInstruction: "Take a screenshot and send this code to Kingdom Leadership in-game for reward review.",
+        practiceComplete: "Practice complete",
+        practiceSummary: "Final score",
+        finalReady: "Ready for the final challenge",
+        rulesQuizLabel: "Kingdom 3907 Rules Quiz",
+        chooseAnswer: "Choose an answer to continue.",
+        selectedAnswer: "Selected answer",
+        continue: "Continue",
+        passingRequirement: "Passing requirement: 80% or higher"
+    },
+    vi: {
+        pageTitle: "BÀI TRẮC NGHIỆM\nLUẬT VƯƠNG QUỐC 3907",
+        bestScore: "Điểm cao nhất",
+        attempts: "Lần làm",
+        status: "Trạng thái",
+        passedStatus: "ĐÃ ĐẠT",
+        failedStatus: "CHƯA ĐẠT",
+        notStarted: "CHƯA BẮT ĐẦU",
+        howItWorks: "Cách thức hoạt động",
+        practiceQuiz: "Làm bài thực hành",
+        finalQuiz: "Bài thi cuối cùng",
+        readRules: "Đọc các Quy định của Vương quốc 3907.",
+        practiceLearn: "Làm bài thực hành để học.",
+        takeFinal: "Làm bài thi cuối cùng.",
+        twentyQuestions: "Trả lời 20 câu hỏi.",
+        passTarget: "Đạt ít nhất 80% (16/20) để qua.",
+        saved: "Kết quả của bạn được lưu trong trình duyệt.",
+        rewardLeadership: "Quyền nhận thưởng sẽ do Ban lãnh đạo Vương quốc quyết định.",
+        rewardConfirmed: "Quyền nhận thưởng đã được xác nhận.",
+        claimReward: "Hãy làm theo hướng dẫn từ Ban lãnh đạo Vương quốc để nhận thưởng.",
+        startPractice: "BẮT ĐẦU THỰC HÀNH",
+        startFinal: "BẮT ĐẦU BÀI THI CUỐI",
+        tryAgain: "THỬ LẠI",
+        next: "TIẾP THEO",
+        finish: "HOÀN THÀNH",
+        reviewRules: "XEM LẠI LUẬT",
+        tryAgainFinal: "THỬ LẠI",
+        questionLabel: "Câu",
+        correct: "Đúng",
+        incorrect: "Sai",
+        correctAnswer: "Đáp án đúng",
+        explanation: "Giải thích",
+        finalPass: "ĐẠT",
+        finalFail: "KHÔNG ĐẠT",
+        score: "Điểm",
+        accuracy: "Độ chính xác",
+        congratulations: "Chúc mừng! Bạn đã vượt qua Bài trắc nghiệm Luật Vương quốc 3907.",
+        failure: "Bạn chưa đạt. Hãy xem lại các quy tắc của Vương quốc và thử lại.",
+        passDescription: "16/20 hoặc cao hơn = ĐẠT",
+        failDescription: "15/20 hoặc thấp hơn = KHÔNG ĐẠT",
+        rewardNote: "Quyền nhận thưởng đã được xác nhận.",
+        quizPassed: "✓ ĐÃ ĐẠT",
+        quizFailed: "✕ CHƯA ĐẠT",
+        verificationCode: "Mã xác minh",
+        verificationInstruction: "Chụp màn hình và gửi mã này cho Ban lãnh đạo trong game để xét thưởng.",
+        practiceComplete: "Hoàn tất bài thực hành",
+        practiceSummary: "Điểm cuối cùng",
+        finalReady: "Sẵn sàng cho thử thách cuối cùng",
+        rulesQuizLabel: "Bài Trắc Nghiệm Luật Vương Quốc 3907",
+        chooseAnswer: "Chọn một đáp án để tiếp tục.",
+        selectedAnswer: "Đáp án đã chọn",
+        continue: "Tiếp tục",
+        passingRequirement: "Yêu cầu đạt: 80% hoặc cao hơn"
+    }
+};
+
+const QUIZ_CATEGORIES = {
+    "GENERAL RULES": { en: "General Rules", vi: "Quy định chung" },
+    "KINGDOM EVENTS": { en: "Kingdom Events", vi: "Sự kiện Vương quốc" },
+    "KVK": { en: "KVK", vi: "KVK" }
+};
+
+const QUESTION_BANK = [
+    {
+        category: "GENERAL RULES",
+        question: {
+            en: "Which rule requires governors to treat other members of the Kingdom with respect?",
+            vi: "Quy tắc nào yêu cầu Thống đốc phải tôn trọng các thành viên khác trong Vương quốc?"
+        },
+        answers: [
+            { en: "Respect All Governors", vi: "Tôn trọng mọi Thống đốc" },
+            { en: "No Unauthorized Attacks", vi: "Không tự ý tấn công" },
+            { en: "Follow Kingdom Decisions", vi: "Tuân thủ quyết định của Vương quốc" },
+            { en: "Sunset Canyon Rule", vi: "Quy tắc Sunset Canyon" }
+        ],
+        correct: 0,
+        explanation: {
+            en: "The first general rule states that all governors must treat others in the Kingdom with respect.",
+            vi: "Quy tắc chung đầu tiên nêu rõ mọi Thống đốc phải tôn trọng những người khác trong Vương quốc."
+        }
+    },
+    {
+        category: "GENERAL RULES",
+        question: {
+            en: "What is prohibited without authorization?",
+            vi: "Điều gì bị cấm nếu không có sự cho phép?"
+        },
+        answers: [
+            { en: "Trading with enemy kingdoms", vi: "Giao dịch với các Vương quốc địch" },
+            { en: "Attacking governors, cities, or alliances inside the Kingdom", vi: "Tấn công Thống đốc, thành phố hoặc liên minh trong Vương quốc" },
+            { en: "Taking a vacation permit", vi: "Xin Giấy phép nghỉ" },
+            { en: "Registering for an event", vi: "Đăng ký sự kiện" }
+        ],
+        correct: 1,
+        explanation: {
+            en: "The Kingdom prohibits unauthorized attacks on governors, cities, or alliances within the Kingdom.",
+            vi: "Vương quốc cấm tấn công Thống đốc, thành phố hoặc liên minh trong Vương quốc khi chưa được phép."
+        }
+    },
+    {
+        category: "GENERAL RULES",
+        question: {
+            en: "Which principle says ignorance of the rules is not an excuse?",
+            vi: "Nguyên tắc nào nói rằng không biết luật không phải là lý do miễn trừ?"
+        },
+        answers: [
+            { en: "Cooperate with the Kingdom", vi: "Hợp tác vì Vương quốc" },
+            { en: "No Intentional Harm", vi: "Không cố ý gây tổn hại" },
+            { en: "Ignorance Is Not an Excuse", vi: "Không biết luật không phải lý do miễn trừ" },
+            { en: "Respect Kingdom Events", vi: "Tôn trọng các sự kiện của Vương quốc" }
+        ],
+        correct: 2,
+        explanation: {
+            en: "All governors are responsible for reading and understanding the current Kingdom rules.",
+            vi: "Mọi Thống đốc có trách nhiệm đọc và hiểu các quy tắc hiện hành của Vương quốc."
+        }
+    },
+    {
+        category: "GENERAL RULES",
+        question: {
+            en: "How many times can a governor attack the same governor in one day in Sunset Canyon before violating the rule?",
+            vi: "Trong một ngày ở Sunset Canyon, một Thống đốc có thể tấn công cùng một Thống đốc tối đa bao nhiêu lần trước khi vi phạm quy tắc?"
+        },
+        answers: [
+            { en: "Once", vi: "Một lần" },
+            { en: "Twice", vi: "Hai lần" },
+            { en: "Three times", vi: "Ba lần" },
+            { en: "Unlimited times", vi: "Không giới hạn" }
+        ],
+        correct: 1,
+        explanation: {
+            en: "A governor may not attack the same governor more than 2 times within the same day.",
+            vi: "Một Thống đốc không được tấn công cùng một Thống đốc quá 2 lần trong một ngày."
+        }
+    },
+    {
+        category: "GENERAL RULES",
+        question: {
+            en: "What is the penalty for violating the Sunset Canyon rule after a confirmed report?",
+            vi: "Nếu vi phạm quy tắc Sunset Canyon và bị xác nhận, hình phạt là gì?"
+        },
+        answers: [
+            { en: "10,000,000 Gold to the attacked governor", vi: "10.000.000 Vàng cho Thống đốc bị tấn công" },
+            { en: "5,000,000 Gold to the Kingdom", vi: "5.000.000 Vàng cho Vương quốc" },
+            { en: "An RSS penalty", vi: "Phạt RSS" },
+            { en: "A temporary vacation permit", vi: "Một giấy phép nghỉ tạm thời" }
+        ],
+        correct: 0,
+        explanation: {
+            en: "If a governor is reported and the violation is confirmed, the offender must pay 10,000,000 Gold to the governor who was attacked.",
+            vi: "Nếu Thống đốc bị tố cáo và vi phạm được xác nhận, người vi phạm phải trả 10.000.000 Vàng cho Thống đốc bị tấn công."
+        }
+    },
+    {
+        category: "KINGDOM EVENTS",
+        question: {
+            en: "Which MGE positions are reserved for designated rally and garrison leaders?",
+            vi: "Những vị trí MGE nào được dành riêng cho các chỉ huy tập hợp và đồn trú được chỉ định?"
+        },
+        answers: [
+            { en: "Top 1–3", vi: "Hạng 1–3" },
+            { en: "Top 4–15", vi: "Hạng 4–15" },
+            { en: "Top 16–20", vi: "Hạng 16–20" },
+            { en: "All ranks", vi: "Tất cả hạng" }
+        ],
+        correct: 0,
+        explanation: {
+            en: "Top 1–3 are reserved for designated rally and garrison leaders.",
+            vi: "Hạng 1–3 được dành riêng cho các chỉ huy tập hợp và đồn trú được chỉ định."
+        }
+    },
+    {
+        category: "KINGDOM EVENTS",
+        question: {
+            en: "How are Top 4–15 MGE positions assigned?",
+            vi: "Cách phân bổ các vị trí MGE từ Hạng 4–15 là gì?"
+        },
+        answers: [
+            { en: "Random draw", vi: "Rút thăm ngẫu nhiên" },
+            { en: "By DKP ranking from the most recent KvK", vi: "Theo xếp hạng DKP của KvK gần nhất" },
+            { en: "By acclaim only", vi: "Chỉ theo acclaim" },
+            { en: "By alliance rank only", vi: "Chỉ theo hạng liên minh" }
+        ],
+        correct: 1,
+        explanation: {
+            en: "Top 4–15 are allocated according to DKP ranking from the most recent KvK.",
+            vi: "Hạng 4–15 được phân bổ theo xếp hạng DKP của KvK gần nhất."
+        }
+    },
+    {
+        category: "KINGDOM EVENTS",
+        question: {
+            en: "When multiple governors request the same position in MGE, which factor takes priority?",
+            vi: "Khi nhiều Thống đốc cùng xin một vị trí trong MGE, yếu tố nào được ưu tiên?"
+        },
+        answers: [
+            { en: "Acclaim", vi: "Acclaim" },
+            { en: "Alliance strength", vi: "Sức mạnh liên minh" },
+            { en: "DKP", vi: "DKP" },
+            { en: "First to register", vi: "Ai đăng ký sớm hơn" }
+        ],
+        correct: 2,
+        explanation: {
+            en: "When multiple governors request the same position, DKP takes priority.",
+            vi: "Khi nhiều Thống đốc cùng xin một vị trí, DKP được ưu tiên."
+        }
+    },
+    {
+        category: "KINGDOM EVENTS",
+        question: {
+            en: "What is the Kingdom-wide MGE score cap?",
+            vi: "Giới hạn điểm MGE toàn Vương quốc là bao nhiêu?"
+        },
+        answers: [
+            { en: "4,000,000", vi: "4.000.000" },
+            { en: "5,000,000", vi: "5.000.000" },
+            { en: "6,000,000", vi: "6.000.000" },
+            { en: "8,000,000", vi: "8.000.000" }
+        ],
+        correct: 2,
+        explanation: {
+            en: "The Kingdom-wide MGE cap is 6M points.",
+            vi: "Giới hạn điểm MGE toàn Vương quốc là 6 triệu điểm."
+        }
+    },
+    {
+        category: "KINGDOM EVENTS",
+        question: {
+            en: "How much is the penalty for each point above the 6M cap?",
+            vi: "Mỗi điểm vượt quá giới hạn 6 triệu bị phạt bao nhiêu?"
+        },
+        answers: [
+            { en: "10 Gold", vi: "10 Vàng" },
+            { en: "50 Gold", vi: "50 Vàng" },
+            { en: "100 Gold", vi: "100 Vàng" },
+            { en: "1,000 Gold", vi: "1.000 Vàng" }
+        ],
+        correct: 2,
+        explanation: {
+            en: "Each point above the 6M cap is subject to a penalty of 100 Gold.",
+            vi: "Mỗi điểm vượt quá giới hạn 6 triệu sẽ bị phạt 100 Vàng."
+        }
+    },
+    {
+        category: "KINGDOM EVENTS",
+        question: {
+            en: "What is the resource exchange ratio for paying MGE penalties?",
+            vi: "Tỷ lệ quy đổi tài nguyên khi trả phạt MGE là bao nhiêu?"
+        },
+        answers: [
+            { en: "2 : 2 : 1.5 : 1 for Food, Wood, Stone, Gold", vi: "2 : 2 : 1,5 : 1 cho Lương thực, Gỗ, Đá, Vàng" },
+            { en: "1 : 1 : 1 : 1 for Food, Wood, Stone, Gold", vi: "1 : 1 : 1 : 1 cho Lương thực, Gỗ, Đá, Vàng" },
+            { en: "2 : 1.5 : 2 : 1", vi: "2 : 1,5 : 2 : 1" },
+            { en: "1 : 2 : 1.5 : 2", vi: "1 : 2 : 1,5 : 2" }
+        ],
+        correct: 0,
+        explanation: {
+            en: "The penalty may be paid using Food, Wood, Stone, or Gold at a ratio of 2 : 2 : 1.5 : 1.",
+            vi: "Phạt có thể được thanh toán bằng Lương thực, Gỗ, Đá hoặc Vàng theo tỷ lệ 2 : 2 : 1,5 : 1."
+        }
+    },
+    {
+        category: "KINGDOM EVENTS",
+        question: {
+            en: "When does an MGE become FFA?",
+            vi: "MGE trở thành FFA khi nào?"
+        },
+        answers: [
+            { en: "When it is a Thursday event", vi: "Khi là sự kiện vào thứ Năm" },
+            { en: "When the MGE Kill Event or Final Day falls on a designated war day during KvK", vi: "Khi MGE KE hoặc ngày cuối trùng với ngày chiến tranh được chỉ định trong KvK" },
+            { en: "When there are fewer than 10 participants", vi: "Khi số người tham gia ít hơn 10" },
+            { en: "When 1.5M Acclaim is reached", vi: "Khi đạt 1,5 triệu Acclaim" }
+        ],
+        correct: 1,
+        explanation: {
+            en: "If the MGE Kill Event or Final Day falls on a designated war day during KvK, the MGE becomes FFA and the normal allocation rules do not apply.",
+            vi: "Nếu MGE KE hoặc ngày cuối trùng với ngày chiến tranh được chỉ định trong KvK, MGE sẽ trở thành FFA và quy tắc phân bổ bình thường không còn áp dụng."
+        }
+    },
+    {
+        category: "KINGDOM EVENTS",
+        question: {
+            en: "Which statement is true about the 20 Golden Heads event?",
+            vi: "Câu nào đúng về sự kiện 20 Golden Heads?"
+        },
+        answers: [
+            { en: "It is a Free For All event", vi: "Đây là sự kiện Free For All" },
+            { en: "Only Top 3 can compete", vi: "Chỉ Hạng 3 mới được thi đấu" },
+            { en: "Only officers can participate", vi: "Chỉ thủ lĩnh mới được tham gia" },
+            { en: "It only happens during KvK", vi: "Chỉ diễn ra trong KvK" }
+        ],
+        correct: 0,
+        explanation: {
+            en: "The 20 Golden Heads event is Free For All.",
+            vi: "Sự kiện 20 Golden Heads là sự kiện Free For All."
+        }
+    },
+    {
+        category: "KINGDOM EVENTS",
+        question: {
+            en: "What is forbidden when using farm accounts in 20 Golden Heads?",
+            vi: "Điều gì bị cấm khi dùng tài khoản phụ trong sự kiện 20 Golden Heads?"
+        },
+        answers: [
+            { en: "Using any account at all", vi: "Dùng bất kỳ tài khoản nào" },
+            { en: "Using farm accounts to intentionally secure a higher ranking", vi: "Dùng tài khoản phụ để cố ý giành thứ hạng cao hơn" },
+            { en: "Using rallies", vi: "Dùng tập hợp" },
+            { en: "Participating in all Kingdom events", vi: "Tham gia tất cả sự kiện của Vương quốc" }
+        ],
+        correct: 1,
+        explanation: {
+            en: "Farm accounts may not be used to intentionally secure a higher ranking. Violators will be zeroed.",
+            vi: "Tài khoản phụ không được dùng để cố ý giành thứ hạng cao hơn. Người vi phạm sẽ bị zero."
+        }
+    },
+    {
+        category: "KINGDOM EVENTS",
+        question: {
+            en: "Who may not compete for Top 1–4 in 20 Golden Heads?",
+            vi: "Ai không được thi đấu ở vị trí Top 1–4 trong sự kiện 20 Golden Heads?"
+        },
+        answers: [
+            { en: "Governors with less than 1.5M Acclaim Points", vi: "Thống đốc có ít hơn 1,5 triệu điểm Acclaim" },
+            { en: "Governors with a Vacation Permit", vi: "Thống đốc có Giấy phép nghỉ" },
+            { en: "New governors only", vi: "Chỉ Thống đốc mới" },
+            { en: "Governors with more than 1.5M Acclaim Points", vi: "Thống đốc có hơn 1,5 triệu điểm Acclaim" }
+        ],
+        correct: 0,
+        explanation: {
+            en: "Governors with less than 1.5M Acclaim Points may not compete for Top 1–4 and may only compete for Top 5 or below.",
+            vi: "Thống đốc có ít hơn 1,5 triệu điểm Acclaim không được thi đấu ở Top 1–4 và chỉ được tranh ở Top 5 hoặc thấp hơn."
+        }
+    },
+    {
+        category: "KINGDOM EVENTS",
+        question: {
+            en: "Which AOO teams play on Saturday at 14:00 UTC and 20:00 UTC respectively?",
+            vi: "Đội AOO nào thi đấu vào thứ Bảy lúc 14:00 UTC và 20:00 UTC?"
+        },
+        answers: [
+            { en: "Team 1 and Team 2", vi: "Đội 1 và Đội 2" },
+            { en: "Top 1 and Top 2", vi: "Hạng 1 và Hạng 2" },
+            { en: "Kingdom and Alliance", vi: "Vương quốc và Liên minh" },
+            { en: "Gold and Silver", vi: "Gold và Silver" }
+        ],
+        correct: 0,
+        explanation: {
+            en: "AOO Team 1 plays on Saturday at 14:00 UTC and Team 2 plays at 20:00 UTC.",
+            vi: "Đội 1 AOO thi đấu vào thứ Bảy lúc 14:00 UTC và Đội 2 lúc 20:00 UTC."
+        }
+    },
+    {
+        category: "KINGDOM EVENTS",
+        question: {
+            en: "By what time must governors register for AOO?",
+            vi: "Thống đốc phải đăng ký AOO trước mấy giờ?"
+        },
+        answers: [
+            { en: "Thursday 17:00 UTC", vi: "Thứ Năm 17:00 UTC" },
+            { en: "Friday 12:00 UTC", vi: "Thứ Sáu 12:00 UTC" },
+            { en: "Saturday 14:00 UTC", vi: "Thứ Bảy 14:00 UTC" },
+            { en: "Monday 09:00 UTC", vi: "Thứ Hai 09:00 UTC" }
+        ],
+        correct: 0,
+        explanation: {
+            en: "Governors must register by Thursday 17:00 UTC by replying to the official registration mail.",
+            vi: "Thống đốc phải đăng ký trước 17:00 UTC thứ Năm bằng cách trả lời thư đăng ký chính thức."
+        }
+    },
+    {
+        category: "KINGDOM EVENTS",
+        question: {
+            en: "What happens if a governor signs up for AOO but does not play?",
+            vi: "Điều gì xảy ra nếu Thống đốc đăng ký AOO nhưng không chơi?"
+        },
+        answers: [
+            { en: "They gain DKP", vi: "Họ nhận thêm DKP" },
+            { en: "They are subject to an RSS penalty before being allowed to play AOO again", vi: "Họ bị phạt RSS trước khi được phép chơi AOO lại" },
+            { en: "They are automatically promoted", vi: "Họ được thăng cấp tự động" },
+            { en: "They lose their Vacation Permit", vi: "Họ mất Giấy phép nghỉ" }
+        ],
+        correct: 1,
+        explanation: {
+            en: "If a governor signs up but does not play, they will be subject to an RSS penalty before being allowed to play AOO again.",
+            vi: "Nếu Thống đốc đăng ký nhưng không chơi, họ sẽ bị phạt RSS trước khi được phép chơi AOO lại."
+        }
+    },
+    {
+        category: "KINGDOM EVENTS",
+        question: {
+            en: "What is the standard AOO penalty?",
+            vi: "Mức phạt chuẩn của AOO là bao nhiêu?"
+        },
+        answers: [
+            { en: "200M Food or 200M Wood or 150M Stone or 80M Gold", vi: "200 triệu Lương thực hoặc 200 triệu Gỗ hoặc 150 triệu Đá hoặc 80 triệu Vàng" },
+            { en: "500M Gold only", vi: "Chỉ 500 triệu Vàng" },
+            { en: "100M Food only", vi: "Chỉ 100 triệu Lương thực" },
+            { en: "No penalty if you apologize", vi: "Không phạt nếu xin lỗi" }
+        ],
+        correct: 0,
+        explanation: {
+            en: "The standard penalty is 200M Food or 200M Wood or 150M Stone or 80M Gold. Missing two AOO matches in a row doubles the penalty.",
+            vi: "Mức phạt chuẩn là 200 triệu Lương thực hoặc 200 triệu Gỗ hoặc 150 triệu Đá hoặc 80 triệu Vàng. Vắng mặt hai trận liên tiếp sẽ làm phạt gấp đôi."
+        }
+    },
+    {
+        category: "KINGDOM EVENTS",
+        question: {
+            en: "What is a valid alternative to paying the AOO penalty?",
+            vi: "Lựa chọn nào hợp lệ thay cho việc trả phạt AOO?"
+        },
+        answers: [
+            { en: "Ignore the match completely", vi: "Bỏ qua trận đó hoàn toàn" },
+            { en: "Play AOO in another alliance or participate in Silver instead", vi: "Chơi AOO ở liên minh khác hoặc tham gia Silver thay thế" },
+            { en: "Skip Kingdom events for the month", vi: "Bỏ các sự kiện của Vương quốc trong tháng" },
+            { en: "Wait until the next KvK", vi: "Chờ đến KvK tiếp theo" }
+        ],
+        correct: 1,
+        explanation: {
+            en: "Governors may choose not to pay the penalty and may play AOO in another alliance or participate in Silver instead, but they will not be allowed to play here until the penalty is paid.",
+            vi: "Thống đốc có thể không trả phạt và có thể chơi AOO ở liên minh khác hoặc tham gia Silver thay thế, nhưng họ sẽ không được chơi ở đây cho đến khi phạt được trả."
+        }
+    },
+    {
+        category: "KINGDOM EVENTS",
+        question: {
+            en: "What is the correct rule for Baulur participation?",
+            vi: "Quy tắc đúng khi tham gia Baulur là gì?"
+        },
+        answers: [
+            { en: "Never attack Baulur alone", vi: "Không bao giờ tấn công Baulur một mình" },
+            { en: "Only officers may join", vi: "Chỉ lãnh đạo mới được tham gia" },
+            { en: "Never participate in Baulur at all", vi: "Không bao giờ tham gia Baulur" },
+            { en: "Only join on war days", vi: "Chỉ tham gia vào các ngày chiến tranh" }
+        ],
+        correct: 0,
+        explanation: {
+            en: "The Baulur rule says to never attack Baulur alone and always participate with the designated group.",
+            vi: "Quy tắc Baulur là không bao giờ tấn công Baulur một mình và luôn tham gia cùng nhóm được chỉ định."
+        }
+    },
+    {
+        category: "KINGDOM EVENTS",
+        question: {
+            en: "How are Kingdom events generally scheduled?",
+            vi: "Các sự kiện của Vương quốc thường được lên lịch như thế nào?"
+        },
+        answers: [
+            { en: "Between 14:00 and 15:00 UTC unless announced otherwise", vi: "Trong khoảng 14:00 đến 15:00 UTC trừ khi có thông báo khác" },
+            { en: "Only after KvK", vi: "Chỉ sau KvK" },
+            { en: "At 01:00 UTC daily", vi: "Mỗi ngày lúc 01:00 UTC" },
+            { en: "Only on weekends", vi: "Chỉ vào ngày cuối tuần" }
+        ],
+        correct: 0,
+        explanation: {
+            en: "Kingdom events are generally held between 14:00 and 15:00 UTC, unless otherwise announced.",
+            vi: "Các sự kiện của Vương quốc thường diễn ra giữa 14:00 và 15:00 UTC, trừ khi có thông báo khác."
+        }
+    },
+    {
+        category: "KVK",
+        question: {
+            en: "What is the DKP formula listed in the Kingdom rules?",
+            vi: "Công thức DKP được nêu trong quy tắc của Vương quốc là gì?"
+        },
+        answers: [
+            { en: "T4 Kills × 10 + T5 Kills × 30 + T4 Deaths × 40 + T5 Deaths × 80", vi: "T4 Kills × 10 + T5 Kills × 30 + T4 Deaths × 40 + T5 Deaths × 80" },
+            { en: "T4 Kills × 20 + T5 Kills × 10 + T4 Deaths × 50 + T5 Deaths × 70", vi: "T4 Kills × 20 + T5 Kills × 10 + T4 Deaths × 50 + T5 Deaths × 70" },
+            { en: "T4 Kills × 5 + T5 Kills × 25", vi: "T4 Kills × 5 + T5 Kills × 25" },
+            { en: "T4 Kills × 30 + T5 Kills × 80 + T4 Deaths × 10 + T5 Deaths × 30", vi: "T4 Kills × 30 + T5 Kills × 80 + T4 Deaths × 10 + T5 Deaths × 30" }
+        ],
+        correct: 0,
+        explanation: {
+            en: "The DKP formula is T4 Kills × 10 + T5 Kills × 30 + T4 Deaths × 40 + T5 Deaths × 80.",
+            vi: "Công thức DKP là T4 Kills × 10 + T5 Kills × 30 + T4 Deaths × 40 + T5 Deaths × 80."
+        }
+    },
+    {
+        category: "KVK",
+        question: {
+            en: "Which battles count toward DKP?",
+            vi: "Những trận nào được tính vào DKP?"
+        },
+        answers: [
+            { en: "Only battles from the first week of KvK", vi: "Chỉ các trận từ tuần đầu của KvK" },
+            { en: "Battles involving Lv. 4 Passes, Altar of Darkness, Lv. 7 Passes, and Kingland", vi: "Các trận chiến có liên quan đến Lv. 4 Passes, Altar of Darkness, Lv. 7 Passes và Kingland" },
+            { en: "Only training battles", vi: "Chỉ các trận luyện tập" },
+            { en: "Only garrison-only battles", vi: "Chỉ các trận đồn trú" }
+        ],
+        correct: 1,
+        explanation: {
+            en: "DKP is counted from battles involving Lv. 4 Passes, Altar of Darkness, Lv. 7 Passes, and Kingland.",
+            vi: "DKP được tính từ các trận chiến liên quan đến Lv. 4 Passes, Altar of Darkness, Lv. 7 Passes và Kingland."
+        }
+    },
+    {
+        category: "KVK",
+        question: {
+            en: "What is required of all CH25 governors?",
+            vi: "Mọi Thống đốc CH25 phải làm gì?"
+        },
+        answers: [
+            { en: "They must meet the Kingdom's DKP requirement", vi: "Họ phải đáp ứng yêu cầu DKP của Vương quốc" },
+            { en: "They must not attack during KvK", vi: "Họ không được tấn công trong KvK" },
+            { en: "They must register for every event", vi: "Họ phải đăng ký mọi sự kiện" },
+            { en: "They must stay in Zone 4", vi: "Họ phải ở trong Zone 4" }
+        ],
+        correct: 0,
+        explanation: {
+            en: "All CH25 governors are required to meet the Kingdom's DKP requirement.",
+            vi: "Tất cả Thống đốc CH25 đều phải đáp ứng yêu cầu DKP của Vương quốc."
+        }
+    },
+    {
+        category: "KVK",
+        question: {
+            en: "How are farm account DKP values handled?",
+            vi: "DKP từ tài khoản phụ được xử lý như thế nào?"
+        },
+        answers: [
+            { en: "They are ignored completely", vi: "Chúng bị bỏ qua hoàn toàn" },
+            { en: "They are combined with the owner's main account", vi: "Chúng được cộng vào tài khoản chính của chủ tài khoản" },
+            { en: "They are counted separately only for gold", vi: "Chúng chỉ được tính riêng cho vàng" },
+            { en: "They are only counted if alts are in the same alliance", vi: "Chúng chỉ được tính nếu alt ở cùng liên minh" }
+        ],
+        correct: 1,
+        explanation: {
+            en: "DKP from CH25 farm accounts will be combined with the owner's main account.",
+            vi: "DKP từ tài khoản phụ CH25 sẽ được cộng vào tài khoản chính của chủ tài khoản."
+        }
+    },
+    {
+        category: "KVK",
+        question: {
+            en: "What must governors do during KvK in terms of markers?",
+            vi: "Trong KvK, Thống đốc phải làm gì liên quan đến marker?"
+        },
+        answers: [
+            { en: "Ignore markers when under attack", vi: "Bỏ qua marker khi bị tấn công" },
+            { en: "Follow assigned markers at all times", vi: "Luôn tuân theo marker đã được chỉ định" },
+            { en: "Rotate markers every day", vi: "Thay đổi marker mỗi ngày" },
+            { en: "Only follow markers in rallies", vi: "Chỉ tuân theo marker khi tập hợp" }
+        ],
+        correct: 1,
+        explanation: {
+            en: "All governors must follow assigned markers at all times during KvK.",
+            vi: "Mọi Thống đốc phải luôn tuân theo marker được chỉ định trong suốt KvK."
+        }
+    },
+    {
+        category: "KVK",
+        question: {
+            en: "Who is allowed to lead rallies or garrisons?",
+            vi: "Ai được phép chỉ huy tập hợp hoặc đồn trú?"
+        },
+        answers: [
+            { en: "Any governor with a high Acclaim score", vi: "Bất kỳ Thống đốc nào có điểm Acclaim cao" },
+            { en: "Only governors specifically assigned to rally or garrison", vi: "Chỉ Thống đốc được phân công cụ thể cho tập hợp hoặc đồn trú" },
+            { en: "Only ranking officers", vi: "Chỉ các quan chức cấp cao" },
+            { en: "Only governors with a Vacation Permit", vi: "Chỉ Thống đốc có Giấy phép nghỉ" }
+        ],
+        correct: 1,
+        explanation: {
+            en: "Only governors specifically assigned to rally or garrison are permitted to lead rallies or garrisons.",
+            vi: "Chỉ Thống đốc được phân công cụ thể cho tập hợp hoặc đồn trú mới được phép chỉ huy chúng."
+        }
+    },
+    {
+        category: "KVK",
+        question: {
+            en: "What is the rule on insufficient DKP at the end of KvK?",
+            vi: "Quy tắc về DKP không đủ vào cuối KvK là gì?"
+        },
+        answers: [
+            { en: "No penalty if the governor was active in other events", vi: "Không phạt nếu Thống đốc tham gia các sự kiện khác" },
+            { en: "Governors who fail to meet required DKP will be subject to a penalty", vi: "Thống đốc không đạt DKP yêu cầu sẽ bị phạt" },
+            { en: "Only majors are affected", vi: "Chỉ các Thống đốc cấp cao bị ảnh hưởng" },
+            { en: "The penalty only applies to the next season", vi: "Phạt chỉ áp dụng cho mùa tiếp theo" }
+        ],
+        correct: 1,
+        explanation: {
+            en: "Governors who fail to meet their required DKP will be subject to a penalty at the end of KvK.",
+            vi: "Thống đốc không đạt DKP yêu cầu sẽ bị phạt vào cuối KvK."
+        }
+    },
+    {
+        category: "KVK",
+        question: {
+            en: "What is important in relation to enemy Kingdoms during KvK?",
+            vi: "Điều quan trọng gì liên quan đến các Vương quốc đối địch trong KvK?"
+        },
+        answers: [
+            { en: "It is acceptable to insult them in LKC", vi: "Có thể xúc phạm họ trong LKC" },
+            { en: "Governors must remain respectful and civil in LKC, including toward enemy Kingdoms", vi: "Thống đốc phải giữ thái độ tôn trọng và lịch sự trong LKC, kể cả với các Vương quốc đối địch" },
+            { en: "Only alliances matter", vi: "Chỉ liên minh mới quan trọng" },
+            { en: "They should be ignored completely", vi: "Nên bỏ qua hoàn toàn" }
+        ],
+        correct: 1,
+        explanation: {
+            en: "Governors must remain respectful and civil in LKC, including toward enemy Kingdoms.",
+            vi: "Thống đốc phải giữ thái độ tôn trọng và lịch sự trong LKC, kể cả với các Vương quốc đối địch."
+        }
+    },
+    {
+        category: "KVK",
+        question: {
+            en: "What is true about Vacation Permit holders?",
+            vi: "Điều gì đúng với người có Vacation Permit?"
+        },
+        answers: [
+            { en: "They are exempt from participation and DKP requirements for that KvK", vi: "Họ được miễn tham gia và yêu cầu DKP trong KvK đó" },
+            { en: "They must always fight in the front line", vi: "Họ luôn phải chiến đấu ở tuyến đầu" },
+            { en: "They lose all rights to other Kingdoms", vi: "Họ mất mọi quyền với các Vương quốc khác" },
+            { en: "They are not allowed to remain in Zone 4", vi: "Họ không được ở trong Zone 4" }
+        ],
+        correct: 0,
+        explanation: {
+            en: "Governors with an approved Vacation Permit are exempt from KvK participation and DKP requirements for that KvK, and must remain in Zone 4.",
+            vi: "Thống đốc được duyệt Giấy phép nghỉ sẽ được miễn tham gia KvK và yêu cầu DKP cho KvK đó, và phải ở trong Zone 4."
+        }
+    }
+];
+
+function getQuizText(key) {
+    const language = document.documentElement.lang === "vi" ? "vi" : "en";
+    return QUIZ_UI_TEXT[language][key] || QUIZ_UI_TEXT.en[key] || key;
+}
+
+function getLocalizedText(value) {
+    if (!value || typeof value !== "object") return value;
+    const language = document.documentElement.lang === "vi" ? "vi" : "en";
+    return value[language] || value.en || "";
+}
+
+function getCategoryLabel(category) {
+    if (!category) return "";
+    const language = document.documentElement.lang === "vi" ? "vi" : "en";
+    return QUIZ_CATEGORIES[category]?.[language] || category;
+}
+
+function loadQuizStorage() {
+    try {
+        const raw = localStorage.getItem(QUIZ_STORAGE_KEY);
+        if (!raw) {
+            return { passed: false, bestScore: 0, attempts: 0, lastScore: 0, lastCode: "" };
+        }
+        const parsed = JSON.parse(raw);
+        return {
+            passed: Boolean(parsed.passed),
+            bestScore: Number(parsed.bestScore) || 0,
+            attempts: Number(parsed.attempts) || 0,
+            lastScore: Number(parsed.lastScore) || 0,
+            lastCode: String(parsed.lastCode || "")
+        };
+    } catch (error) {
+        return { passed: false, bestScore: 0, attempts: 0, lastScore: 0, lastCode: "" };
+    }
+}
+
+function saveQuizStorage(payload) {
+    try {
+        localStorage.setItem(QUIZ_STORAGE_KEY, JSON.stringify(payload));
+    } catch (error) {
+        console.warn("Quiz storage unavailable:", error);
+    }
+}
+
+function shuffleArray(items) {
+    const copy = [...items];
+    for (let index = copy.length - 1; index > 0; index -= 1) {
+        const swapIndex = Math.floor(Math.random() * (index + 1));
+        [copy[index], copy[swapIndex]] = [copy[swapIndex], copy[index]];
+    }
+    return copy;
+}
+
+function buildPracticeSet() {
+    return shuffleArray(QUESTION_BANK).slice(0, 8).map((question) => {
+        const answers = shuffleArray(question.answers.map((answer, index) => ({ ...answer, originalIndex: index })));
+        const correctIndex = answers.findIndex((answer) => answer.originalIndex === question.correct);
+        return {
+            ...question,
+            baseQuestion: question,
+            prompt: getLocalizedText(question.question),
+            explanationText: getLocalizedText(question.explanation),
+            answers,
+            correctIndex,
+            categoryLabel: getCategoryLabel(question.category)
+        };
+    });
+}
+
+function buildFinalSet() {
+    return shuffleArray(QUESTION_BANK).slice(0, 20).map((question) => {
+        const answers = shuffleArray(question.answers.map((answer, index) => ({ ...answer, originalIndex: index })));
+        const correctIndex = answers.findIndex((answer) => answer.originalIndex === question.correct);
+        return {
+            ...question,
+            baseQuestion: question,
+            prompt: getLocalizedText(question.question),
+            answers,
+            correctIndex,
+            selectedIndex: null,
+            categoryLabel: getCategoryLabel(question.category)
+        };
+    });
+}
+
+function localizeQuestionItem(item) {
+    if (!item || !item.baseQuestion) {
+        return item;
+    }
+
+    return {
+        ...item,
+        prompt: getLocalizedText(item.baseQuestion.question),
+        explanationText: getLocalizedText(item.baseQuestion.explanation),
+        answers: item.answers.map((answer) => ({ ...answer }))
+    };
+}
+
+function generateResultCode() {
+    const symbols = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+    const randomPart = Array.from({ length: 8 }, () => symbols[Math.floor(Math.random() * symbols.length)]).join("");
+    return `K3907-${randomPart}`;
+}
+
+function updateQuizStatusPanel() {
+    const stats = loadQuizStorage();
+    const bestScoreValue = document.getElementById("bestScoreValue");
+    const attemptsValue = document.getElementById("attemptsValue");
+    const quizStatusValue = document.getElementById("quizStatusValue");
+
+    if (bestScoreValue) {
+        bestScoreValue.textContent = `${stats.bestScore}/20`;
+    }
+
+    if (attemptsValue) {
+        attemptsValue.textContent = String(stats.attempts);
+    }
+
+    if (quizStatusValue) {
+        if (stats.attempts > 0) {
+            quizStatusValue.textContent = stats.passed ? getQuizText("passedStatus") : getQuizText("failedStatus");
+        } else {
+            quizStatusValue.textContent = getQuizText("notStarted");
+        }
+    }
+}
+
+function initializeQuizPage() {
+    const quizApp = document.getElementById("quizApp");
+    if (!quizApp) {
+        return;
+    }
+
+    const practiceState = {
+        items: [],
+        currentIndex: 0,
+        score: 0,
+        finished: false,
+        answered: false
+    };
+
+    const finalState = {
+        items: [],
+        currentIndex: 0,
+        score: 0,
+        finished: false,
+        started: false
+    };
+
+    function renderQuizApp() {
+        const stats = loadQuizStorage();
+        quizApp.innerHTML = `
+            <section class="hero quiz-hero">
+                <div class="badge">KINGDOM 3907</div>
+                <h2>${getQuizText("pageTitle").replace(/\n/g, "<br>")}</h2>
+            </section>
+
+            <div class="quiz-status-panel">
+                <div class="quiz-stat">
+                    <span>${getQuizText("bestScore")}</span>
+                    <strong id="bestScoreValue">${stats.bestScore}/20</strong>
+                </div>
+                <div class="quiz-stat">
+                    <span>${getQuizText("attempts")}</span>
+                    <strong id="attemptsValue">${stats.attempts}</strong>
+                </div>
+                <div class="quiz-stat">
+                    <span>${getQuizText("status")}</span>
+                    <strong id="quizStatusValue">${stats.attempts > 0 ? (stats.passed ? getQuizText("passedStatus") : getQuizText("failedStatus")) : getQuizText("notStarted")}</strong>
+                </div>
+            </div>
+
+            <section id="how-it-works" class="content-section quiz-section">
+                <div class="quiz-card">
+                    <h3>${getQuizText("howItWorks")}</h3>
+                    <ul class="quiz-steps">
+                        <li><span class="quiz-step-number">1</span><span>${getQuizText("readRules")}</span></li>
+                        <li><span class="quiz-step-number">2</span><span>${getQuizText("practiceLearn")}</span></li>
+                        <li><span class="quiz-step-number">3</span><span>${getQuizText("takeFinal")}</span></li>
+                        <li><span class="quiz-step-number">4</span><span>${getQuizText("twentyQuestions")}</span></li>
+                        <li><span class="quiz-step-number">5</span><span>${getQuizText("passTarget")}</span></li>
+                        <li><span class="quiz-step-number">6</span><span>${getQuizText("saved")}</span></li>
+                    </ul>
+                    <p class="quiz-info-text">${getQuizText("rewardLeadership")}</p>
+                </div>
+            </section>
+
+            <section id="practice-quiz" class="content-section quiz-section">
+                <div id="practiceQuizPanel" class="quiz-card"></div>
+            </section>
+
+            <section id="final-quiz" class="content-section quiz-section">
+                <div id="finalQuizPanel" class="quiz-card"></div>
+            </section>
+        `;
+
+        renderPracticeQuiz();
+        renderFinalQuiz();
+        updateQuizStatusPanel();
+    }
+
+    function renderPracticeQuiz() {
+        const container = document.getElementById("practiceQuizPanel");
+        if (!container) {
+            return;
+        }
+
+        if (practiceState.finished) {
+            container.innerHTML = `
+                <h3>${getQuizText("practiceComplete")}</h3>
+                <div class="final-score-panel">
+                    <span>${getQuizText("practiceSummary")}</span>
+                    <strong>${practiceState.score}/8</strong>
+                </div>
+                <div class="quiz-actions">
+                    <button class="quiz-button" type="button" data-practice-reset="true">${getQuizText("tryAgain")}</button>
+                </div>
+            `;
+            const button = container.querySelector("[data-practice-reset='true']");
+            if (button) {
+                button.addEventListener("click", startPracticeQuiz);
+            }
+            return;
+        }
+
+        if (!practiceState.items.length) {
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = "quiz-button";
+            button.textContent = getQuizText("startPractice");
+            button.addEventListener("click", startPracticeQuiz);
+            container.innerHTML = `<h3>${getQuizText("practiceQuiz")}</h3><div class="quiz-actions"><button class="quiz-button" type="button" data-practice-start="true">${getQuizText("startPractice")}</button></div>`;
+            const startButton = container.querySelector("[data-practice-start='true']");
+            if (startButton) {
+                startButton.addEventListener("click", startPracticeQuiz);
+            }
+            return;
+        }
+
+        const currentItem = practiceState.items[practiceState.currentIndex];
+        const current = localizeQuestionItem(currentItem);
+        const answerButtons = current.answers.map((answer, index) => {
+            const isSelected = current.selectedIndex === index;
+            const className = "answer-button" + (isSelected ? " selected" : "");
+            return `<button class="${className}" type="button" data-practice-answer="${index}">${getLocalizedText(answer)}</button>`;
+        }).join("");
+
+        const resultMarkup = current.showResult
+            ? `
+                <div class="quiz-result-box ${current.isCorrect ? "pass" : "fail"}">
+                    <strong>${current.isCorrect ? getQuizText("correct") : getQuizText("incorrect")}</strong>
+                    <p>${getQuizText("correctAnswer")}: ${getLocalizedText(current.answers[current.correctIndex])}</p>
+                    <p>${getQuizText("explanation")}: ${getLocalizedText(current.baseQuestion.explanation)}</p>
+                </div>
+            `
+            : "";
+
+        container.innerHTML = `
+            <div class="quiz-question-meta">
+                <span>${getQuizText("practiceQuiz")}</span>
+                <span>${getQuizText("questionLabel")} ${practiceState.currentIndex + 1} / ${practiceState.items.length}</span>
+            </div>
+            <div class="quiz-question">${current.prompt}</div>
+            <div class="answer-list">${answerButtons}</div>
+            ${resultMarkup}
+            <div class="quiz-actions">
+                ${current.showResult ? `<button class="quiz-button" type="button" data-practice-next="true">${practiceState.currentIndex === practiceState.items.length - 1 ? getQuizText("finish") : getQuizText("next")}</button>` : ""}
+            </div>
+        `;
+
+        container.querySelectorAll("[data-practice-answer]").forEach((button) => {
+            button.addEventListener("click", () => {
+                if (currentItem.showResult) {
+                    return;
+                }
+
+                const selectedIndex = Number(button.dataset.practiceAnswer);
+                currentItem.selectedIndex = selectedIndex;
+                currentItem.isCorrect = selectedIndex === currentItem.correctIndex;
+                currentItem.showResult = true;
+                if (currentItem.isCorrect) {
+                    practiceState.score += 1;
+                }
+                renderPracticeQuiz();
+            });
+        });
+
+        const nextButton = container.querySelector("[data-practice-next='true']");
+        if (nextButton) {
+            nextButton.addEventListener("click", () => {
+                if (practiceState.currentIndex < practiceState.items.length - 1) {
+                    practiceState.currentIndex += 1;
+                    renderPracticeQuiz();
+                    return;
+                }
+
+                practiceState.finished = true;
+                renderPracticeQuiz();
+            });
+        }
+    }
+
+    function startPracticeQuiz() {
+        practiceState.items = buildPracticeSet();
+        practiceState.currentIndex = 0;
+        practiceState.score = 0;
+        practiceState.finished = false;
+        practiceState.items.forEach((item) => {
+            item.showResult = false;
+            item.selectedIndex = null;
+            item.isCorrect = false;
+        });
+        renderPracticeQuiz();
+    }
+
+    function renderFinalQuiz() {
+        const container = document.getElementById("finalQuizPanel");
+        if (!container) {
+            return;
+        }
+
+        if (!finalState.items.length && !finalState.started) {
+            container.innerHTML = `
+                <h3>${getQuizText("finalQuiz")}</h3>
+                <div class="quiz-info-text">${getQuizText("passingRequirement")}</div>
+                <div class="quiz-actions">
+                    <button class="quiz-button" type="button" data-final-start="true">${getQuizText("startFinal")}</button>
+                </div>
+            `;
+            const button = container.querySelector("[data-final-start='true']");
+            if (button) {
+                button.addEventListener("click", startFinalQuiz);
+            }
+            return;
+        }
+
+        if (finalState.finished) {
+            const isPassed = finalState.score >= 16;
+            const accuracy = Math.round((finalState.score / finalState.items.length) * 100);
+            const stats = loadQuizStorage();
+            const rewardCode = generateResultCode();
+            stats.lastScore = finalState.score;
+            stats.attempts = (Number(stats.attempts) || 0) + 1;
+            stats.bestScore = Math.max(stats.bestScore, finalState.score);
+            stats.passed = stats.passed || isPassed;
+            stats.lastCode = rewardCode;
+            saveQuizStorage(stats);
+
+            container.innerHTML = `
+                <div class="quiz-result-box ${isPassed ? "pass" : "fail"}">
+                    <strong>${isPassed ? getQuizText("finalPass") : getQuizText("finalFail")}</strong>
+                    <div class="final-score-panel">
+                        <span>${getQuizText("score")}</span>
+                        <strong>${finalState.score} / ${finalState.items.length}</strong>
+                    </div>
+                    <div class="final-score-panel">
+                        <span>${getQuizText("accuracy")}</span>
+                        <strong>${accuracy}%</strong>
+                    </div>
+                    <div class="quiz-result-box">
+                        <strong>${getQuizText("verificationCode")}</strong>
+                        <p><strong>${rewardCode}</strong></p>
+                        <p>${getQuizText("verificationInstruction")}</p>
+                    </div>
+                    <p>${isPassed ? getQuizText("congratulations") : getQuizText("failure")}</p>
+                    ${isPassed ? `<p class="quiz-result-pass-line">${getQuizText("rewardConfirmed")}</p><p>${getQuizText("claimReward")}</p>` : ""}
+                </div>
+                <div class="quiz-actions">
+                    <button class="quiz-secondary-button" type="button" data-review-rules="true">${getQuizText("reviewRules")}</button>
+                    <button class="quiz-button" type="button" data-final-reset="true">${getQuizText("tryAgainFinal")}</button>
+                </div>
+            `;
+
+            const reviewButton = container.querySelector("[data-review-rules='true']");
+            if (reviewButton) {
+                reviewButton.addEventListener("click", () => {
+                    window.location.href = "../index.html#general";
+                });
+            }
+
+            const resetButton = container.querySelector("[data-final-reset='true']");
+            if (resetButton) {
+                resetButton.addEventListener("click", startFinalQuiz);
+            }
+
+            updateQuizStatusPanel();
+            return;
+        }
+
+        const currentItem = finalState.items[finalState.currentIndex];
+        const current = localizeQuestionItem(currentItem);
+        const options = current.answers.map((answer, index) => {
+            const selected = current.selectedIndex === index;
+            return `<button class="answer-button ${selected ? "selected" : ""}" type="button" data-final-answer="${index}">${getLocalizedText(answer)}</button>`;
+        }).join("");
+
+        container.innerHTML = `
+            <div class="quiz-question-meta">
+                <span>${getQuizText("finalQuiz")}</span>
+                <span>${getQuizText("questionLabel")} ${finalState.currentIndex + 1} / ${finalState.items.length}</span>
+            </div>
+            <div class="quiz-question">${current.prompt}</div>
+            <div class="answer-list">${options}</div>
+            <div class="quiz-actions">
+                <button class="quiz-button" type="button" data-final-next="true" ${typeof current.selectedIndex !== "number" ? "disabled" : ""}>${finalState.currentIndex === finalState.items.length - 1 ? getQuizText("finish") : getQuizText("next")}</button>
+            </div>
+        `;
+
+        container.querySelectorAll("[data-final-answer]").forEach((button) => {
+            button.addEventListener("click", () => {
+                const selectedIndex = Number(button.dataset.finalAnswer);
+                currentItem.selectedIndex = selectedIndex;
+                renderFinalQuiz();
+            });
+        });
+
+        const nextButton = container.querySelector("[data-final-next='true']");
+        if (nextButton) {
+            nextButton.addEventListener("click", () => {
+                if (typeof currentItem.selectedIndex !== "number") {
+                    return;
+                }
+
+                if (currentItem.selectedIndex === currentItem.correctIndex) {
+                    finalState.score += 1;
+                }
+
+                if (finalState.currentIndex < finalState.items.length - 1) {
+                    finalState.currentIndex += 1;
+                    renderFinalQuiz();
+                    return;
+                }
+
+                finalState.finished = true;
+                renderFinalQuiz();
+            });
+        }
+    }
+
+    function startFinalQuiz() {
+        finalState.items = buildFinalSet();
+        finalState.currentIndex = 0;
+        finalState.score = 0;
+        finalState.finished = false;
+        finalState.started = true;
+        renderFinalQuiz();
+    }
+
+    document.addEventListener("quizLanguageUpdated", () => {
+        renderQuizApp();
+        updateQuizStatusPanel();
+    });
+
+    renderQuizApp();
+}
+
+if (document.body && document.body.dataset.page === "quiz") {
+    initializeQuizPage();
+}
+
+const originalSetLanguage = window.setLanguage;
+if (typeof originalSetLanguage === "function") {
+    window.setLanguage = function(language) {
+        originalSetLanguage(language);
+        if (document.body && document.body.dataset.page === "quiz") {
+            document.dispatchEvent(new Event("quizLanguageUpdated"));
+        }
+    };
 }
