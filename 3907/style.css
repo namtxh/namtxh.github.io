@@ -993,6 +993,7 @@ html[lang="vi"] .rule-number,
 html[lang="vi"] .event-header span,
 html[lang="vi"] .event-header h3,
 html[lang="vi"] .formula strong,
+html[lang="vi"] .quiz-stat strong,
 html[lang="vi"] .footer-logo {
     font-family: "Noto Sans", sans-serif;
 }
