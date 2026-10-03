@@ -555,6 +555,28 @@ nav {
     color: #e5e5e5;
 }
 
+.barbarian-forts .fort-value {
+    display: inline-block;
+    margin: 3px 0;
+    color: var(--gold);
+    font-family: "Cinzel", serif;
+    font-size: 22px;
+}
+
+.discord-card {
+    max-width: 720px;
+}
+
+.discord-button {
+    display: inline-flex;
+    margin-top: 12px;
+}
+
+.discord-button[aria-disabled="true"] {
+    cursor: not-allowed;
+    opacity: 0.55;
+}
+
 code {
     display: inline-block;
 

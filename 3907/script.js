@@ -2,10 +2,35 @@ const menuBtn = document.getElementById("menuBtn");
 const sidebar = document.getElementById("sidebar");
 const navLinks = document.querySelectorAll(".nav-link");
 const languageToggle = document.getElementById("languageToggle");
+const DISCORD_INVITE = "https://discord.gg/UK9xrSb6VE";
+
+const discordInvite = document.getElementById("discordInvite");
+if (discordInvite && DISCORD_INVITE) {
+    discordInvite.href = DISCORD_INVITE;
+    discordInvite.removeAttribute("aria-disabled");
+}
 
 const translations = {
     "GENERAL RULES": "QUY ĐỊNH CHUNG",
     "General Rules": "Quy định chung",
+    "Rules": "Quy định",
+    "Barbarian Forts": "Pháo đài man rợ",
+    "Weekly Limit": "Giới hạn hàng tuần",
+    "70 / WEEK": "70 / TUẦN",
+    "Barbarian Forts per week.": "Pháo đài man rợ mỗi tuần.",
+    "Daily Limit": "Giới hạn hàng ngày",
+    "10 / DAY": "10 / NGÀY",
+    "Maximum 10 Barbarian Forts per day.": "Tối đa 10 Pháo đài man rợ mỗi ngày.",
+    "Rally System": "Hệ thống tập hợp",
+    "1 + 1": "1 + 1",
+    "One governor starts the rally and one additional governor joins that rally.": "1 Thống đốc bắt đầu tập hợp và 1 Thống đốc khác tham gia tập hợp đó.",
+    "The 1+1 system helps maximize rewards and increases the speed of Crystal Chest collection for the alliance.": "Hệ thống 1+1 giúp tối đa hóa phần thưởng và tăng tốc độ thu thập Rương Pha Lê cho liên minh.",
+    "Weekly Rewards": "Phần thưởng hàng tuần",
+    "At the beginning of each week, the top governors who rallied the most Barbarian Forts during the previous week receive rewards in the form of Trophies and/or RSS.": "Vào đầu mỗi tuần, các Thống đốc tập hợp nhiều Pháo đài man rợ nhất trong tuần trước sẽ nhận phần thưởng là Cúp và/hoặc RSS.",
+    "KINGDOM COMMUNITY": "CỘNG ĐỒNG VƯƠNG QUỐC",
+    "Kingdom Discord": "Discord Vương quốc",
+    "Join the official Kingdom 3907 Discord server for Kingdom announcements, coordination, events, and community communication.": "Tham gia máy chủ Discord chính thức của Vương quốc 3907 để nhận thông báo, phối hợp, cập nhật sự kiện và giao lưu cộng đồng.",
+    "JOIN OUR DISCORD": "THAM GIA DISCORD",
     "KINGDOM EVENTS": "SỰ KIỆN VƯƠNG QUỐC",
     "MGE Regulations": "Thể lệ MGE",
     "20 Golden Heads": "Sự kiện 20 Trọc",
@@ -21,6 +46,7 @@ const translations = {
     "Kingdom Codex": "Cẩm nang Vương quốc",
     "Official rules, regulations and policies governing Kingdom 3907.": "Các quy tắc, quy định và chính sách chính thức của Vương quốc 3907.",
     "READ THE CODEX": "XEM CẨM NANG",
+    "START QUIZ": "BẮT ĐẦU KIỂM TRA",
     "FOUNDATION": "NỀN TẢNG",
     "Respect All Governors": "Tôn trọng mọi Thống đốc",
     "All governors must treat other members of the Kingdom with respect. Harassment, insults, threats, or toxic behavior are not permitted.": "Mọi Thống đốc phải tôn trọng các thành viên khác trong Vương quốc. Không được quấy rối, xúc phạm, đe dọa hoặc có hành vi độc hại.",
@@ -818,6 +844,114 @@ const QUESTION_BANK = [
         explanation: {
             en: "Kingdom events are generally held between 14:00 and 15:00 UTC, unless otherwise announced.",
             vi: "Các sự kiện của Vương quốc thường diễn ra giữa 14:00 và 15:00 UTC, trừ khi có thông báo khác."
+        }
+    },
+    {
+        category: "GENERAL RULES",
+        question: {
+            en: "What is the Kingdom's weekly requirement for Barbarian Forts?",
+            vi: "Yêu cầu số lượng Pháo đài man rợ hàng tuần của Vương quốc là bao nhiêu?"
+        },
+        answers: [
+            { en: "50 Barbarian Forts", vi: "50 Pháo đài Barbarian" },
+            { en: "70 Barbarian Forts", vi: "70 Pháo đài Barbarian" },
+            { en: "90 Barbarian Forts", vi: "90 Pháo đài Barbarian" },
+            { en: "100 Barbarian Forts", vi: "100 Pháo đài Barbarian" }
+        ],
+        correct: 1,
+        explanation: {
+            en: "The Kingdom requirement is 70 Barbarian Forts per week.",
+            vi: "Yêu cầu của Vương quốc là 70 Pháo đài Barbarian mỗi tuần."
+        }
+    },
+    {
+        category: "GENERAL RULES",
+        question: {
+            en: "What is the daily requirement for Barbarian Forts?",
+            vi: "Số Pháo đài man rợ cần tiêu diệt mỗi ngày là bao nhiêu?"
+        },
+        answers: [
+            { en: "5 per day", vi: "5 mỗi ngày" },
+            { en: "10 per day", vi: "10 mỗi ngày" },
+            { en: "15 per day", vi: "15 mỗi ngày" },
+            { en: "100 per day", vi: "100 mỗi ngày" }
+        ],
+        correct: 1,
+        explanation: {
+            en: "The daily requirement is 10 Barbarian Forts per day.",
+            vi: "Yêu cầu hàng ngày là 10 Pháo đài Barbarian mỗi ngày."
+        }
+    },
+    {
+        category: "GENERAL RULES",
+        question: {
+            en: "What does the 1+1 rally system mean?",
+            vi: "Hệ thống tập hợp 1+1 có nghĩa là gì?"
+        },
+        answers: [
+            { en: "One governor starts the rally and one additional governor joins", vi: "Một Thống đốc bắt đầu tập hợp và một Thống đốc khác tham gia" },
+            { en: "Two governors start separate rallies", vi: "Hai Thống đốc bắt đầu hai đợt tập hợp riêng" },
+            { en: "One governor joins two rallies", vi: "Một Thống đốc tham gia hai đợt tập hợp" },
+            { en: "Two governors join after the rally ends", vi: "Hai Thống đốc tham gia sau khi tập hợp kết thúc" }
+        ],
+        correct: 0,
+        explanation: {
+            en: "1+1 means one governor starts the rally and one additional governor joins that rally.",
+            vi: "1+1 nghĩa là một Thống đốc bắt đầu tập hợp và một Thống đốc khác tham gia tập hợp đó."
+        }
+    },
+    {
+        category: "GENERAL RULES",
+        question: {
+            en: "What is the purpose of the 1+1 system?",
+            vi: "Mục đích của hệ thống 1+1 là gì?"
+        },
+        answers: [
+            { en: "To maximize rewards and increase the alliance's Crystal Chest collection speed", vi: "Tối đa hóa phần thưởng và tăng tốc độ thu thập Rương Pha Lê của liên minh" },
+            { en: "To change the daily Barbarian Forts limit", vi: "Thay đổi giới hạn Pháo đài Barbarian hàng ngày" },
+            { en: "To determine the weekly reward recipients", vi: "Quyết định người nhận phần thưởng hàng tuần" },
+            { en: "To set the number of weekly Barbarian Forts", vi: "Ấn định số Pháo đài Barbarian hàng tuần" }
+        ],
+        correct: 0,
+        explanation: {
+            en: "The 1+1 system helps maximize rewards and increases the speed of Crystal Chest collection for the alliance.",
+            vi: "Hệ thống 1+1 giúp tối đa hóa phần thưởng và tăng tốc độ thu thập Rương Pha Lê cho liên minh."
+        }
+    },
+    {
+        category: "GENERAL RULES",
+        question: {
+            en: "Weekly Barbarian Fort rewards are based on rally activity from when?",
+            vi: "Phần thưởng Pháo đài Barbarian hàng tuần dựa trên hoạt động tập hợp của thời gian nào?"
+        },
+        answers: [
+            { en: "The previous week", vi: "Tuần trước" },
+            { en: "The current day", vi: "Ngày hiện tại" },
+            { en: "The current month", vi: "Tháng hiện tại" },
+            { en: "The following week", vi: "Tuần tiếp theo" }
+        ],
+        correct: 0,
+        explanation: {
+            en: "At the beginning of each week, rewards go to top governors based on the Barbarian Forts they rallied during the previous week.",
+            vi: "Vào đầu mỗi tuần, phần thưởng được trao cho các Thống đốc hàng đầu dựa trên số Pháo đài Barbarian họ đã tập hợp trong tuần trước."
+        }
+    },
+    {
+        category: "GENERAL RULES",
+        question: {
+            en: "What may the weekly Barbarian Fort rewards include?",
+            vi: "Phần thưởng Pháo đài Barbarian hàng tuần có thể gồm những gì?"
+        },
+        answers: [
+            { en: "Trophies and RSS", vi: "Cúp và RSS" },
+            { en: "Only a fixed amount of Gold", vi: "Chỉ một lượng Vàng cố định" },
+            { en: "Only a fixed amount of Corn/Wood/Stone", vi: "Chỉ một lượng Ngô/Gỗ/Đá cố định" },
+            { en: "A guaranteed reward for every governor", vi: "Phần thưởng đảm bảo cho mọi Thống đốc" }
+        ],
+        correct: 0,
+        explanation: {
+            en: "Weekly rewards may consist of Trophies and RSS.",
+            vi: "Phần thưởng hàng tuần có thể gồm Cúp và RSS."
         }
     },
     {
